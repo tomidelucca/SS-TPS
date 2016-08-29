@@ -9,7 +9,6 @@ public class Agent extends Particle {
         super(x, y, 0);
         this.speed = 0.03;
         this.angle = randomAngle();
-        // TODO Auto-generated constructor stub
     }
 
     public double getAngle() {
@@ -29,7 +28,11 @@ public class Agent extends Particle {
     }
 
     // angulo random para una particula
-    public static double randomAngle() {
+    private static double randomAngle() {
         return Math.toRadians(Math.random() * 360);
+    }
+
+    public String toString() {
+        return "0.1" + " " + getPosition().getX() + " " + getPosition().getY();
     }
 }

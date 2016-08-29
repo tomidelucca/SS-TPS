@@ -28,7 +28,7 @@ public class Start {
         InputGenerator.generateRandomInput(10000, 7, 1, "files/input/10000_7.xyz");
 
         OvitoFile ovitoFile;
-        FileAgentsReader far = new FileAgentsReader("files/input/40_7.xyz");
+        FileAgentsReader far = new FileAgentsReader("files/input/100_7.xyz");
         FileProperties fp = new FileProperties("config.properties");
         Map<Particle, Set<Particle>> map = null;
 
