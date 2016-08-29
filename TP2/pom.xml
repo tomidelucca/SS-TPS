@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ss.grupo3</groupId>
+    <artifactId>SS-TPS</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>ss.grupo3</groupId>
+  <artifactId>TP2</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>TP2</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ss.grupo3</groupId>
+      <artifactId>cell-index-method</artifactId>
+      <version>${cell-index-method.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar.version}</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>ss.grupo3.Start</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>${maven-shade.version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <finalName>${project.artifactId}-${project.version}</finalName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
