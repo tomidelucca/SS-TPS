@@ -33,6 +33,6 @@ public class Agent extends Particle {
     }
 
     public String toString() {
-        return "0.1" + " " + getPosition().getX() + " " + getPosition().getY() + " " + getAngle();
+        return "0.1" + " " + getPosition().getX() + " " + getPosition().getY() + " " + getAngle() + " 0";
     }
 }
