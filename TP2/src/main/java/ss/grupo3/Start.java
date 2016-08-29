@@ -8,6 +8,7 @@ import ss.grupo3.models.Agent;
 import ss.grupo3.models.Particle;
 import ss.grupo3.ovito.OvitoFile;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,14 +18,17 @@ public class Start {
 
     public static void main(String[] args) {
 
-        /*InputGenerator.generateRandomInput(40, 7, 1, "resources/input/40_7.xyz");
-        InputGenerator.generateRandomInput(100, 7, 1, "resources/input/100_7.xyz");
-        InputGenerator.generateRandomInput(400, 7, 1, "resources/input/400_7.xyz");
-        InputGenerator.generateRandomInput(4000, 7, 1, "resources/input/4000_7.xyz");
-        InputGenerator.generateRandomInput(10000, 7, 1, "resources/input/10000_7.xyz");*/
+        new File("files/input/").mkdirs();
+        new File("files/output/Va").mkdirs();
 
-        OvitoFile ovitoFile = new OvitoFile("out/result.xyz");
-        FileAgentsReader far = new FileAgentsReader("resources/input/40_7.xyz");
+        InputGenerator.generateRandomInput(40, 7, 1, "files/input/40_7.xyz");
+        InputGenerator.generateRandomInput(100, 7, 1, "files/input/100_7.xyz");
+        InputGenerator.generateRandomInput(400, 7, 1, "files/input/400_7.xyz");
+        InputGenerator.generateRandomInput(4000, 7, 1, "files/input/4000_7.xyz");
+        InputGenerator.generateRandomInput(10000, 7, 1, "files/input/10000_7.xyz");
+
+        OvitoFile ovitoFile;
+        FileAgentsReader far = new FileAgentsReader("files/input/40_7.xyz");
         FileProperties fp = new FileProperties("config.properties");
         Map<Particle, Set<Particle>> map = null;
 
@@ -59,7 +63,7 @@ public class Start {
             int times = 0;
             ETA = e;
             agents = far.read();
-            ovitoFile = new OvitoFile("out/eta_" + ETA + ".xyz");
+            ovitoFile = new OvitoFile("files/output/eta_" + ETA + ".xyz");
             System.out.println("PROCESO CON ETA: " + ETA);
             while(times < iterations) {
                 SelfDrivenParticles.move(agents, DELTA_TIME);
@@ -71,7 +75,7 @@ public class Start {
                 ovitoFile.write(times, L, agents);
                 times++;
             }
-            ovitoFile.createVaFile(Va, N, "out/Va/" + N + "_eta" + ETA + ".txt");
+            ovitoFile.createVaFile(Va, N, "files/output/Va/" + N + "_eta" + ETA + ".txt");
             ovitoFile.closeFile();
 
             System.out.println();
