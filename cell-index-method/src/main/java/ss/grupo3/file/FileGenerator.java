@@ -28,4 +28,17 @@ public class FileGenerator {
             e.printStackTrace();
         }
     }
+
+    public static void createVaFile(double[] Va, String path) {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(path, "UTF-8");
+            for (int i = 0; i < Va.length; i++)
+                writer.println(Va[i]);
+            writer.close();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }
