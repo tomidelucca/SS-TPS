@@ -7,9 +7,11 @@ import java.io.PrintWriter;
 public class OvitoFile {
 
     private PrintWriter writer = null;
-
+    private String path;
+    
     public OvitoFile(String path) {
         try {
+        	this.path = path;
             this.writer = new PrintWriter(path, "UTF-8");
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -17,7 +19,15 @@ public class OvitoFile {
         }
     }
 
-    public void write(int iteration, double L, Agent[] agents) {
+    public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public void write(int iteration, double L, Agent[] agents) {
         this.writer.println(agents.length + 4);
         this.writer.println(iteration);
         this.writer.println("0.1 0.0 0.0 0 1");

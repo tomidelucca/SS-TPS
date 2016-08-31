@@ -13,16 +13,23 @@ public class SelfDrivenParticles extends CellIndexMethod {
     /*
      * Mueve los agentes un tiempo delta_t
      * */
-    public static void move(Particle[] particleArray, double delta_t) {
+    public static Agent[] move(Particle[] particleArray, double delta_t) {
+    	Agent[] newAgents = new Agent[particleArray.length];
+    	
         for(int i = 0; i < particleArray.length; i++) {
-            Movement.doMove((Agent) particleArray[i]);
+        	newAgents[i] = Movement.doMove((Agent) particleArray[i]);
         }
+        
+        return newAgents;
     }
-
+    
     /*
      * Recalcula los angulos de cada uno de los agentes
      * */
-    public static void updateAngle(Map<Particle, Set<Particle>> map, double n) {
+    public static Agent[] updateAngle(Map<Particle, Set<Particle>> map, double n) {
+    	Agent[] newAgents = new Agent[map.entrySet().size()];
+    	int i = 0;
+    	
         for(Map.Entry<Particle,Set<Particle>> entry : map.entrySet()) {
             Particle key = entry.getKey();
             Set<Particle> value = entry.getValue();
@@ -47,30 +54,32 @@ public class SelfDrivenParticles extends CellIndexMethod {
             thita_r = Math.atan2(AVG_SIN_angle, AVG_COS_angle);
             delta_thita = (-n/2) + ((n/2) - (-n/2)) * r.nextDouble();
 
-            ((Agent) key).setAngle(thita_r + delta_thita);
+            newAgents[i] = new Agent(((Agent) key).getPosition().getX(), ((Agent) key).getPosition().getY());
+            newAgents[i].setAngle(thita_r + delta_thita);
+            i++;
         }
+        
+        return newAgents;
     }
-
+    
     /*
      * Actualiza la posicion de los agentes en caso de que se encuentren fuera del cuadrado LxL
      * */
-    public static void updatePosition(Map<Particle, Set<Particle>> map, double L) {
-        Set<Particle> setParticle = map.keySet();
+	public static void updatePosition(Agent[] newAgents, double L) {
+        for(int i = 0; i < newAgents.length; i++) {
+            if(newAgents[i].getPosition().getX() < 0)
+            	newAgents[i].getPosition().setX( L + newAgents[i].getPosition().getX());
 
-        for(Particle p: setParticle) {
-            if(p.getPosition().getX() < 0)
-                p.getPosition().setX( L + p.getPosition().getX());
+            if(newAgents[i].getPosition().getY() < 0)
+            	newAgents[i].getPosition().setY( L + newAgents[i].getPosition().getY());
 
-            if(p.getPosition().getY() < 0)
-                p.getPosition().setY( L + p.getPosition().getY());
+            if(newAgents[i].getPosition().getX() > L)
+            	newAgents[i].getPosition().setX( L - newAgents[i].getPosition().getX());
 
-            if(p.getPosition().getX() > L)
-                p.getPosition().setX( L - p.getPosition().getX());
-
-            if(p.getPosition().getY() > L)
-                p.getPosition().setY( L - p.getPosition().getY());
-        }
-    }
+            if(newAgents[i].getPosition().getY() > L)
+            	newAgents[i].getPosition().setY( L - newAgents[i].getPosition().getY());
+        }		
+	}
 
     /*
      * Calcula el valor de Va (absolute value of the normalized velocity
@@ -88,4 +97,6 @@ public class SelfDrivenParticles extends CellIndexMethod {
         double absVelocity = Math.sqrt(Math.pow(xVelocityAvg, 2) + Math.pow(yVelocityAvg, 2));
         return absVelocity / (particleArray.length * particleVelocity);
     }
+
+
 }

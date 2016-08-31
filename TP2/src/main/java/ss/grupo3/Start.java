@@ -1,5 +1,11 @@
 package ss.grupo3;
 
+import static java.lang.Math.floor;
+
+import java.io.File;
+import java.util.Map;
+import java.util.Set;
+
 import ss.grupo3.file.FileAgentsReader;
 import ss.grupo3.file.FileGenerator;
 import ss.grupo3.file.FileProperties;
@@ -8,15 +14,6 @@ import ss.grupo3.methods.SelfDrivenParticles;
 import ss.grupo3.models.Agent;
 import ss.grupo3.models.Particle;
 import ss.grupo3.ovito.OvitoFile;
-
-import java.io.File;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
-import static java.lang.Math.floor;
-import static java.lang.Math.floorDiv;
-import static java.lang.Math.pow;
 
 public class Start {
 
@@ -97,19 +94,20 @@ public class Start {
 
         int k = 0;
 
+        Agent[] newAgents = agents;
         while (k < iterations) {
-            SelfDrivenParticles.move(agents, DELTA_TIME);
-            map = SelfDrivenParticles.neighbours(agents, L, M, Rc, true);
-            SelfDrivenParticles.updateAngle(map, ETA);
-            SelfDrivenParticles.updatePosition(map, L);
-
-            ovitoFile.write(k, L, agents);
             k++;
+            newAgents = SelfDrivenParticles.move(newAgents, DELTA_TIME);
+            map = SelfDrivenParticles.neighbours(newAgents, L, M, Rc, true);
+            newAgents = SelfDrivenParticles.updateAngle(map, ETA);
+            SelfDrivenParticles.updatePosition(newAgents, L);
+            ovitoFile.write(k, L, newAgents);
         }
-        System.out.println(k);
+        
         ovitoFile.closeFile();
 
         System.out.println();
+        System.out.println("ARCHIVO GENERADO: " + ovitoFile.getPath());
         System.out.println("TIEMPO TOTAL: " + ((System.currentTimeMillis() - start) / 1000) + " segundos");
         System.out.println("PROCESO FINALIZADO.");
     }
@@ -148,16 +146,18 @@ public class Start {
 
                 System.out.printf("VALORES N:%d L:%.2f M:%d Rc:%.2f\n", N, L, M, Rc);
                 System.out.printf("VALOR DE DENSIDAD: %.3f\n", ((double) N / Math.pow(L, 2)));
-
+                
+                Agent[] newAgents = agents;
                 while (k < iterations) {
                     k++;
-                    SelfDrivenParticles.move(agents, DELTA_TIME);
-                    map = SelfDrivenParticles.neighbours(agents, L, M, Rc, true);
-                    SelfDrivenParticles.updateAngle(map, eta);
-                    SelfDrivenParticles.updatePosition(map, L);
+                    newAgents = SelfDrivenParticles.move(newAgents, DELTA_TIME);
+                    map = SelfDrivenParticles.neighbours(newAgents, L, M, Rc, true);
+                    newAgents = SelfDrivenParticles.updateAngle(map, eta);
+                    SelfDrivenParticles.updatePosition(newAgents, L);
+
                 }
 
-                Va[i++] = SelfDrivenParticles.simulationNormalizedVelocity(agents);
+                Va[i++] = SelfDrivenParticles.simulationNormalizedVelocity(newAgents);
 
                 System.out.println();
                 System.out.println("TIEMPO TOTAL: " + ((double) (System.currentTimeMillis() - start) / 1000) + " segundos");
@@ -198,14 +198,18 @@ public class Start {
                 ETA = e;
                 agents = far.read();
                 System.out.println("PROCESO CON ETA: " + ETA);
+
+                Agent[] newAgents = agents;
                 while (k < iterations) {
-                    SelfDrivenParticles.move(agents, DELTA_TIME);
-                    map = SelfDrivenParticles.neighbours(agents, L, M, Rc, true);
-                    SelfDrivenParticles.updateAngle(map, ETA);
-                    SelfDrivenParticles.updatePosition(map, L); //esto lo hago en caso de que las particulas esten fuera del cuadado L.
                     k++;
+                    newAgents = SelfDrivenParticles.move(newAgents, DELTA_TIME);
+                    map = SelfDrivenParticles.neighbours(newAgents, L, M, Rc, true);
+                    newAgents = SelfDrivenParticles.updateAngle(map, ETA);
+                    SelfDrivenParticles.updatePosition(newAgents, L);
+
                 }
-                Va[i++] = SelfDrivenParticles.simulationNormalizedVelocity(agents);
+                
+                Va[i++] = SelfDrivenParticles.simulationNormalizedVelocity(newAgents);
 
                 System.out.println();
                 System.out.println("TIEMPO TOTAL: " + ((double) (System.currentTimeMillis() - start) / 1000) + " segundos");
