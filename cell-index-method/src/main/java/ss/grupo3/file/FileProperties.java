@@ -10,6 +10,9 @@ public class FileProperties {
     private int iterations;
     private double ETA;
     private double Rc;
+    private double L;
+    private int N;
+    private double delta;
 
     public FileProperties(String path) {
         Properties prop = new Properties();
@@ -24,6 +27,10 @@ public class FileProperties {
             this.M = Integer.valueOf(prop.getProperty("M"));
             this.Rc = Double.valueOf(prop.getProperty("Rc"));
             this.ETA = Double.valueOf(prop.getProperty("eta"));
+            this.L = Double.valueOf(prop.getProperty("L"));
+            this.N = Integer.valueOf(prop.getProperty("N"));
+            this.delta = Double.valueOf(prop.getProperty("delta"));
+
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -41,32 +48,27 @@ public class FileProperties {
         return M;
     }
 
-    public void setM(int m) {
-        M = m;
-    }
-
     public int getIterations() {
         return iterations;
-    }
-
-    public void setIterations(int iterations) {
-        this.iterations = iterations;
     }
 
     public double getETA() {
         return ETA;
     }
 
-    public void setETA(double eTA) {
-        ETA = eTA;
-    }
-
     public double getRc() {
         return Rc;
     }
 
-    public void setRc(double rc) {
-        Rc = rc;
+    public double getL() {
+        return L;
     }
 
+    public int getN() {
+        return N;
+    }
+
+    public double getDelta() {
+        return delta;
+    }
 }

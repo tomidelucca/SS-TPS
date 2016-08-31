@@ -7,7 +7,7 @@ public class Agent extends Particle {
 
     public Agent(double x, double y) {
         super(x, y, 0);
-        this.speed = 0.03;
+        this.speed = 0.1;
         this.angle = randomAngle();
     }
 

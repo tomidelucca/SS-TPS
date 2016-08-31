@@ -11,6 +11,7 @@ import ss.grupo3.ovito.OvitoFile;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import static java.lang.Math.floor;
@@ -26,82 +27,93 @@ public class Start {
         new File("files/input/").mkdirs();
         new File("files/output/Va").mkdirs();
 
-        //Start.plotVaVsETA(40, 3.1, 3, 1000, 1.0, 3, 0.25);
-        Start.plotVaVsDensity(20, 1000, 1.0, 5, 2.0, 1.0);
+        String option = "";
+        Integer times = 0;
 
-        //double L, int iterations, double Rc, int times, double eta, double density_delta
+        if(args.length == 2) {
+            option = args[0];
+            times = Integer.valueOf(args[1]);
+        }
+        else {
+            System.out.println("Invalid input.\n");
+            return;
+        }
 
-        /*for(int mac = 6; mac < 11; mac++) {
-            //InputGenerator.generateRandomInput(40, 3.1, 1, "files/input/40_3-1.xyz");
-            //InputGenerator.generateRandomInput(100, 5, 1, "files/input/100_5.xyz");
-            //InputGenerator.generateRandomInput(400, 10, 1, "files/input/400_10.xyz");
-            //InputGenerator.generateRandomInput(4000, 31.6, 1, "files/input/4000_31-6.xyz");
-            //InputGenerator.generateRandomInput(10000, 50, 1, "files/input/10000_50.xyz");
+        int iterations;
+        int M;
+        double Rc;
+        double ETA;
+        double L;
+        int N;
+        double delta;
 
-            OvitoFile ovitoFile = null;
-            FileAgentsReader far = new FileAgentsReader("files/input/400_10.xyz");
+        try {
             FileProperties fp = new FileProperties("config.properties");
-            Map<Particle, Set<Particle>> map = null;
-
-            int M = 0;
-            double Rc = 0.0;
-            int N = 0;
-            double L = 0.0;
-            int iterations = 0;
-            double ETA = 0; //random perturbation
-            Agent[] agents = null;
-            double[] Va = null;
-
-            //Parametros del config.properties
             iterations = fp.getIterations();
             M = fp.getM();
             Rc = fp.getRc();
             ETA = fp.getETA();
+            L = fp.getL();
+            N = fp.getN();
+            delta = fp.getDelta();
+        } catch (Exception e) {
+            System.out.println("Invalid config file.\n");
+            return;
+        }
 
-            //Lectura de particulas de archivo
-            agents = far.read();
-            N = far.getN();
-            L = far.getL();
-            Va = new double[21];
-
-            System.out.printf("VALORES N:%d L:%.2f M:%d Rc:%.2f\n", N, L, M, Rc);
-            System.out.printf("VALOR DE DENSIDAD: %.3f\n", ((double) N / Math.pow(L, 2)));
-            System.out.printf("DELTA TIEMPO: %.2f\n", DELTA_TIME);
-            System.out.printf("ITERACIONES: %d\n", iterations);
-
-            int tomi = 0;
-
-            ovitoFile = new OvitoFile("files/output/eta_" + ETA + ".xyz");
-
-            for (double e = 0.0; e <= 5.0; e += 0.25) {
-                long start = System.currentTimeMillis();
-                int times = 0;
-                ETA = e;
-                agents = far.read();
-                System.out.println("PROCESO CON ETA: " + ETA);
-                while (times < iterations) {
-                    SelfDrivenParticles.move(agents, DELTA_TIME);
-                    map = SelfDrivenParticles.neighbours(agents, L, M, Rc, true);
-                    SelfDrivenParticles.updateAngle(map, ETA);
-                    SelfDrivenParticles.updatePosition(map, L); //esto lo hago en caso de que las particulas esten fuera del cuadado L.
-                    if (times == 999) {
-                        Va[tomi++] = SelfDrivenParticles.simulationNormalizedVelocity(agents);
-                        //Va[times] = SelfDrivenParticles.simulationNormalizedVelocity(agents);
-                    }
-
-                    //ovitoFile.write(times, L, agents);
-                    times++;
-                }
-                //ovitoFile.createVaFile(Va, N, "files/output/Va/" + N + "_eta" + ETA + ".txt");
-                ovitoFile.closeFile();
-
-                System.out.println();
-                System.out.println("TIEMPO TOTAL: " + ((double) (System.currentTimeMillis() - start) / 1000) + " segundos");
-                System.out.println("PROCESO FINALIZADO.");
-            }
-
-            ovitoFile.createVaFile(Va, "files/output/Va/" + N + "_" + mac + ".txt");*/
+        if(option.equals("va_density")) {
+            Start.plotVaVsDensity(L, iterations, Rc, times, ETA, delta);
+        } else if(option.equals("va_eta")) {
+            Start.plotVaVsETA(N, L, M, iterations, Rc, times, delta);
+        } else if (option.equals("simulate")) {
+            Start.simulate(M, Rc, N, L, iterations, ETA);
+        } else {
+            System.out.println("Invalid input.\n");
+            return;
+        }
     }
+
+    public static void simulate(int M, double Rc, int N, double L, int iterations, double ETA) {
+
+        long start = System.currentTimeMillis();
+
+        String path = "files/input/" + N + "_" + L + "_.xyz";
+
+        InputGenerator.generateRandomInput(N, L, 1, path);
+
+        OvitoFile ovitoFile;
+        FileAgentsReader far = new FileAgentsReader(path);
+        Map<Particle, Set<Particle>> map = null;
+
+        Agent[] agents = far.read();
+
+        System.out.printf("VALORES N:%d L:%.2f M:%d Rc:%.2f\n", N, L, M, Rc);
+        System.out.printf("VALOR DE DENSIDAD: %.3f\n", ((double) N / Math.pow(L, 2)));
+        System.out.printf("DELTA TIEMPO: %.2f\n", DELTA_TIME);
+        System.out.printf("ITERACIONES: %d\n", iterations);
+
+        ovitoFile = new OvitoFile("files/output/"+ N+"_"+L+"_"+ETA+".xyz");
+        System.out.println("PROCESO CON ETA: " + ETA);
+
+        int k = 0;
+
+        while (k < iterations) {
+            SelfDrivenParticles.move(agents, DELTA_TIME);
+            map = SelfDrivenParticles.neighbours(agents, L, M, Rc, true);
+            SelfDrivenParticles.updateAngle(map, ETA);
+            SelfDrivenParticles.updatePosition(map, L);
+
+            ovitoFile.write(k, L, agents);
+            k++;
+        }
+        System.out.println(k);
+        ovitoFile.closeFile();
+
+        System.out.println();
+        System.out.println("TIEMPO TOTAL: " + ((System.currentTimeMillis() - start) / 1000) + " segundos");
+        System.out.println("PROCESO FINALIZADO.");
+    }
+
 
     public static void plotVaVsDensity(double L, int iterations, double Rc, int times, double eta, double density_delta) {
 
