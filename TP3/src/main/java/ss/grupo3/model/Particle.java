@@ -66,5 +66,7 @@ public class Particle {
 		this.mass = mass;
 	}
 	
-	
+	public String print() {
+		return getRadius() + " " + getX() + " " + getY();
+	}
 }

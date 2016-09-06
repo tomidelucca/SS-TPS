@@ -1,18 +1,53 @@
 package ss.group3.generator;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
+import ss.grupo3.model.Particle;
+
+/**
+ * Crea el archivo de entrada con las particulas
+ * 
+ * @author Matias
+ *
+ */
 public class FileGenerator {
-//L=0.5m
-//N particulas
-//particulas
-//	Ri = 0.005m
-//	Mi = 0.1g
-//particula grande
-//	R = 0.05m
-//	M = 100g
-
-	public static void generate(int N, int L, double radiusLimit) {
-		//TODO generar los archivos de entrada con las particulas
-	}
 	
+	/**
+	 * Genera el el archivo con las particulas
+	 * 
+	 * @param N cantidad de particulas
+	 * @param L	area
+	 * @param path ruta del archivo a generar
+	 */
+	public static void generate(int N, double L, Particle[] particles, String path) {
+		PrintWriter writer;
+	    try {
+	        writer = new PrintWriter(path, "UTF-8");
+		    writer.println(N + 4);
+		    writer.println(L);
+		    writer.println("0.005 0 0");
+		    writer.println("0.005 "+L+" 0");
+		    writer.println("0.005 0 " + L);
+		    writer.println("0.005 " + L + " " + L);
+		    for(Particle p: particles) {
+		        writer.println(p.print());
+		    }
+		    writer.close();		
+		} catch (FileNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+	}
+		
+//	public static void main(String[] args) {
+//		System.out.println("inicio generatation");
+//		FileGenerator.generate(100, 0.5, "input/test1.xyz");
+//		System.out.println("finaliza generatation");
+//	}
 }
