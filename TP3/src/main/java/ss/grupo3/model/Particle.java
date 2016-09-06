@@ -69,4 +69,10 @@ public class Particle {
 	public String print() {
 		return getRadius() + " " + getX() + " " + getY();
 	}
+	
+	@Override
+	public String toString() {
+//		return "Particle[x:"+ getX() + " y:"+ getY() +" radius:"+ getRadius() +" mass:"+ getMass()+"]";
+		return "Particle[x:"+ getX() + " y:"+ getY()+"]";
+	}
 }

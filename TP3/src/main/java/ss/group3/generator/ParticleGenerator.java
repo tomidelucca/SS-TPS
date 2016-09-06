@@ -71,7 +71,9 @@ public class ParticleGenerator {
 	 */
 	private static boolean validParticle(Particle[] particle, Particle b, double L, int limit) {
 		for(int j = 0; j < limit; j++) {
-			if(!overlapParticle(particle[j], b) && !isOutofBound(b, L))
+			if(isOutofBound(b, L))
+				return false;
+			if(!NoOverlapParticle(particle[j], b))
 				return false;
 		}
 		return true;
@@ -84,8 +86,9 @@ public class ParticleGenerator {
 	 * @param b
 	 * @return
 	 */
-	private static boolean overlapParticle(Particle a, Particle b) {
+	private static boolean NoOverlapParticle(Particle a, Particle b) {
 		// (xi - xj)^2 - (yi - yj)^2 > (ri - rj)^2
+		
 		return (Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2)) > Math.pow(a.getRadius() + b.getRadius(), 2);
 	}
 	
@@ -97,10 +100,8 @@ public class ParticleGenerator {
 	 * @return true si esta sobre el limite. Sino, false.
 	 */
 	private static boolean isOutofBound(Particle a, double L) {
-		if((a.getX() + a.getRadius()) > L || (a.getX() - a.getRadius())  < 0)
-			return true;
-		
-		if((a.getY() + a.getRadius()) > L || (a.getY() - a.getRadius())  < 0)
+		if((a.getX() + a.getRadius()) > L || (a.getX() - a.getRadius())  < 0 || 
+				(a.getY() + a.getRadius()) > L || (a.getY() - a.getRadius())  < 0)
 			return true;
 		
 		return false;
