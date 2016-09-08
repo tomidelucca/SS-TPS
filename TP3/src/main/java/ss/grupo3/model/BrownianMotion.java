@@ -1,114 +1,146 @@
 package ss.grupo3.model;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
-import ss.grupo3.utils.Colission;
+import ss.grupo3.event.CollisionParticleEvent;
+import ss.grupo3.event.CollisionWallEvent;
+import ss.grupo3.ovito.OvitoFile;
 
 public class BrownianMotion {
-	private Set<Event> eventSet;
+	private PriorityQueue<Event> eventQueue;
 	private Particle[] particles;
 	private double L;
-
+	private double dt;
+	//tengo en cuenta los primeros 10 eventos
+	int eventCount = 10;
+	
 	public BrownianMotion(Particle[] particles, double L) {
-		this.eventSet = new TreeSet<Event>();
+		this.eventQueue = new PriorityQueue<Event>(new Comparator<Event>() {
+
+			@Override
+			public int compare(Event o1, Event o2) {
+				return (o1.getTime() < o2.getTime())? -1 : 1;
+			}
+		});
+		
 		this.particles = particles;
+		this.dt = 0;
 		this.L = L;
 	}
 	
+//	public void printParticules() {
+//		for(int i = 0; i < particles.length; i++)
+//			System.out.println(particles[i]);
+//	}
+	
 	public void run(int iteration) {
+		OvitoFile of = new OvitoFile("output/test1.xyz");
 		int i = 0;
+		Event event = null;
 		
-		while(i < iteration) {
-			i++;
-			calculateEvents(particles);
+		try {
+			calculateEventsQueue(particles);
+			
+			while(i < iteration && !this.eventQueue.isEmpty()) {
+//				System.out.println("ITERACION: " + i);
+//				printParticules();
+				of.write(i, L, particles);
+				event = executeFirstEvent();
+				updateQueue(event, i);
+				i++;
+			}
+
+			of.closeFile();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
-	private void calculateEvents(Particle[] particle) {
+	private void updateQueue(Event event, int it) throws CloneNotSupportedException {
+		Event anEvent = null;
+		Particle a = event.getA();
+		Particle b = event.getB();
+		int length = eventQueue.size();
+		PriorityQueue<Event> auxEventQueue = new PriorityQueue<Event>(new Comparator<Event>() {
+
+			@Override
+			public int compare(Event o1, Event o2) {
+				return (o1.getTime() < o2.getTime())? -1 : 1;
+			}
+		});
+		
+		for(int i = 0; i < length; i++) {
+			anEvent = eventQueue.poll();
+
+			if(!anEvent.contains(a,b)) {
+				if(anEvent instanceof CollisionWall)
+					anEvent = CollisionWallEvent.check(anEvent.getA(), L);
+				if(anEvent instanceof CollisionParticle)
+					anEvent = CollisionParticleEvent.check(anEvent.getA(), anEvent.getB());
+
+				if(anEvent != null) {
+					auxEventQueue.add(anEvent);
+				}
+			}
+		}
+		
+		eventQueue.addAll(auxEventQueue);
+		
+		calculatParticleEvent(a);
+		calculatParticleEvent(b);		
+	}
+
+	private void updateParticlePosition(double t) {
+		for(Particle p: particles) {
+			p.updatePosition(t);
+		}
+	}
+	
+	private Event executeFirstEvent() throws CloneNotSupportedException {
+		Event firstEvent = eventQueue.poll();
+
+		updateParticlePosition(firstEvent.getTime());
+		firstEvent.update();
+		this.dt = firstEvent.getTime();
+
+		return firstEvent;
+	}
+
+	private void calculateEventsQueue(Particle[] particle) throws CloneNotSupportedException {
 		Event e;
 		
 		for(int i = 0; i < particle.length; i++) {
-			e = calculateColissionWallEvent(particle[i]);
+			e = CollisionWallEvent.check(particle[i], L);
 			if(e != null)
-				eventSet.add(e);
+				eventQueue.add(e);
 		}
 				
 		for(int i = 0; i < particle.length; i++)
 			for(int j = i + 1; j < particle.length; j++) {
-				e = calculateColissionParticleEvent(particle[i], particle[j]);
+				e = CollisionParticleEvent.check(particle[i], particle[j]);
 				if(e != null)
-					eventSet.add(e);
+					eventQueue.add(e);
 			}
-		
-		Iterator<Event>  it = eventSet.iterator();
-		while(it.hasNext()) {
-			System.out.println(it.next());
-		}
-	}
-
-	//TODO chequear que los calculos sean correctos
-	private Event calculateColissionParticleEvent(Particle a, Particle b) {
-		double sigma = a.getRadius() + b.getRadius();
-		
-		double dx = b.getX() - a.getX();
-		double dy = b.getY() - a.getY();
-		
-		double dvx = b.getVx() - a.getVx();
-		double dvy = b.getVy() - a.getVy();
-		
-		double drdr = Math.pow(dx, 2) + Math.pow(dy, 2);
-		double dvdv = Math.pow(dvx, 2) + Math.pow(dvy, 2);
-		double dvdr = dvx*dx + dvy*dy;
-		
-		double d = Math.pow(dvdr, 2) - dvdv*(drdr - Math.pow(sigma, 2));
-		double tc = 0;
-		
-		if(dvdr >= 0) {
-//			tc = Double.POSITIVE_INFINITY;
-			return null;
-		} else if(d < 0) {
-//			tc = Double.POSITIVE_INFINITY;			
-			return null;
-		} else {
-			tc = - ((dvdr + Math.sqrt(d)) / dvdv);
-			return new ColissionParticle(tc, a, b, dx, dy, dvdr, sigma);
-		}
-		
-
-	}
+	}	
 	
-	//TODO chequear que los calculos sean correctos
-	private Event calculateColissionWallEvent(Particle p) {		
-		double tcx = 0;
-		double tcy = 0;
+	private void calculatParticleEvent(Particle p) throws CloneNotSupportedException {
+		Event e;
+		
+		if(p == null)
+			return; 
 
-		//PAREDES VERTICALES
-		//tc = (xp2 - R - x(0)) / vx ; vx > 0
-		//tc = (xp1 + R - x(0)) / vx ; vx < 0
-		if(p.getVx() > 0)
-			tcx = ( L - p.getRadius() - p.getX()) / p.getVx();
-		else if (p.getVx() < 0)
-			tcx = ( 0 + p.getRadius() - p.getX()) / p.getVx();
-		
-		//PAREDES HORIZONTALES
-		//tc = (yp2 - R - y(0)) / vy ; vy > 0
-		//tc = (yp1 + R - y(0)) / vy ; vy < 0
-		if(p.getVy() > 0)
-			tcy = ( L - p.getRadius() - p.getY()) / p.getVy();
-		else if (p.getVy() < 0)
-			tcy = ( 0 + p.getRadius() - p.getY()) / p.getVy();
+		e = CollisionWallEvent.check(p, L);
+		if(e != null)
+			eventQueue.add(e);
 
-		if(tcx < 0 || tcy < 0)
-			System.out.println("error");
-		
-		if(tcx < tcy) {
-			return new ColissionWall(tcx, p, Colission.HORIZONTAL);			
-		} else if(tcx > tcy) {
-			return new ColissionWall(tcy, p, Colission.VERTICAL);
-		} else
-			return null;
-	}
-		
+		for(int i = 0; i < particles.length; i++) {
+			if(!p.equals(particles[i])) {
+				e = CollisionParticleEvent.check(p, particles[i]);
+				if(e != null)
+					eventQueue.add(e);				
+			}
+		}
+	}	
 }

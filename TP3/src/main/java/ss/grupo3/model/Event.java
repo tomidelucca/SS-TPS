@@ -8,9 +8,13 @@ public abstract class Event implements Comparable<Event> {
 	private Particle b;
 	
 	public Event(double time, Particle a, Particle b) {
+		a.setUpdated(false);
+		if(b != null)
+			b.setUpdated(false);
 		this.time = time;
 		this.a = a;
 		this.b = b;
+//		System.out.println("event time: " + this.time);
 	}
 
 	public double getTime() {
@@ -43,4 +47,6 @@ public abstract class Event implements Comparable<Event> {
 	}
 	
 	public abstract void update();
+
+	public abstract boolean contains(Particle a2, Particle b2);
 }
