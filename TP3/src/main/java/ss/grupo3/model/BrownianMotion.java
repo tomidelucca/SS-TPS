@@ -34,7 +34,7 @@ public class BrownianMotion {
 		this.total_time = total_time;
 	}
 	
-	public void run() {
+	public void simulate() {
 		OvitoFile of = new OvitoFile("output/test1.xyz");
 		Event event = null;
 		double auxtime = 0;
@@ -47,7 +47,7 @@ public class BrownianMotion {
 			predict(particles);
 			//guardo el estado inicial de todas las particulas
 			of.write(L, particles);			
-			//TODO cambiar lo de iteration por un dt para guardar los estados
+			//Todo este while sirve para poder medir las colisiones en intervalos dt.
 			while(this.total_time >= epsilon) {
 
 				if(eventTime != -1) {
@@ -149,7 +149,12 @@ public class BrownianMotion {
 		}
 	}
 	
-	private void predict(Particle[] particle) throws CloneNotSupportedException {
+	/**
+	 * Busca colisiones contra pared o entre particulas
+	 * 
+	 * @param particle
+	 */
+	private void predict(Particle[] particle){
 		Event e;
 		
 		for(int i = 0; i < particle.length; i++) {
@@ -166,7 +171,12 @@ public class BrownianMotion {
 			}
 	}	
 	
-	private void calculatParticleEvent(Particle p) throws CloneNotSupportedException {
+	/**
+	 * Buca colisiones entre particulas
+	 * 
+	 * @param p
+	 */
+	private void calculatParticleEvent(Particle p){
 		Event e;
 		
 		if(p == null)

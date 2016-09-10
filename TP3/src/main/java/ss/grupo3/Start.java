@@ -13,7 +13,7 @@ public class Start {
 		double L;
 		double dt;
 		double total_simulation_time;
-		String mode;
+		String mode; // no utilizado aun...
 		
 		FileProperties fp = new FileProperties("config.properties");
 		N = fp.getN();
@@ -26,7 +26,7 @@ public class Start {
 		FileGenerator.generate(N, L, particles, "input/input2.xyz");
 		
 		BrownianMotion bm = new BrownianMotion(particles, L, dt, total_simulation_time);
-		bm.run();
+		bm.simulate();
 		
 	}
 }

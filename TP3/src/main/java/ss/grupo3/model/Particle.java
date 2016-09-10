@@ -1,6 +1,6 @@
 package ss.grupo3.model;
 
-public class Particle implements Cloneable {
+public class Particle{
 
 	private double x;
 	private double y;
@@ -26,7 +26,7 @@ public class Particle implements Cloneable {
 
 	public void setX(double x) {
 		this.x = x;
-		System.out.println("valor X:" + x);
+//		System.out.println("valor X:" + x);
 	}
 
 	public double getY() {
@@ -35,7 +35,7 @@ public class Particle implements Cloneable {
 
 	public void setY(double y) {
 		this.y = y;
-		System.out.println("valor Y:" + y);
+//		System.out.println("valor Y:" + y);
 	}
 
 	public double getVx() {
@@ -44,8 +44,8 @@ public class Particle implements Cloneable {
 
 	public void setVx(double vx) {
 		this.vx = vx;
-		if(Math.abs(vx) > 10)
-			System.out.println("muy grande");
+//		if(Math.abs(vx) > 10)
+//			System.out.println("muy grande");
 	}
 
 	public double getVy() {
@@ -54,8 +54,8 @@ public class Particle implements Cloneable {
 
 	public void setVy(double vy) {
 		this.vy = vy;
-		if(Math.abs(vy) > 10)
-			System.out.println("muy grande");
+//		if(Math.abs(vy) > 10)
+//			System.out.println("muy grande");
 	}
 
 	public double getRadius() {
@@ -86,11 +86,6 @@ public class Particle implements Cloneable {
 	public String toString() {
 		return "Particle[x:"+ getX() + " y:"+ getY()+"]";
 	}
-	
-    protected Particle clone() throws CloneNotSupportedException
-    {
-        return (Particle) super.clone();
-    }
 
 	public void updatePosition(double t) {
 		this.x += this.vx*t;

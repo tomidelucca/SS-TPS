@@ -13,7 +13,7 @@ public class CollisionPerDtFileGenerator {
     		PrintWriter writer = new PrintWriter(path, "UTF-8");
     		double sum = dt;
 
-            writer.println("#intervalos dt = " + dt);
+            writer.println("#Colisiones en intervalos dt = " + dt);
             for (int i = 0; i < list.size(); i++){
                 writer.println(list.get(i) + " TIME:" + sum);
                 sum += dt;
@@ -24,9 +24,5 @@ public class CollisionPerDtFileGenerator {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
-    
-	public void write(double L, Particle[] particles) {
-
     }
 }
