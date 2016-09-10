@@ -4,11 +4,9 @@ import ss.grupo3.model.CollisionParticle;
 import ss.grupo3.model.Event;
 import ss.grupo3.model.Particle;
 
-public class CollisionParticleEvent extends AbstractEvent {
+public class CollisionParticleEvent{
 
 	public static Event check(Particle a, Particle b) {
-//		if(overlap(a, b))
-//			return null;
 				
 		double dx = b.getX() - a.getX();
 		double dy = b.getY() - a.getY();
