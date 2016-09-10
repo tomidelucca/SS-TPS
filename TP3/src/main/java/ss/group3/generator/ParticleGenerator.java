@@ -15,9 +15,9 @@ public class ParticleGenerator {
 	private static final double MAX_VELOCITY = 0.1;
 	private static final double MIN_VELOCITY = -0.1;
 	private static final double LITTLE_PARTICLE_RADIUS = 0.005;
-	private static final double LITTLE_PARTICLE_MASS = 0.1;
+	private static final double LITTLE_PARTICLE_MASS = 0.0001;
 	private static final double BIG_PARTICLE_RADIUS = 0.05;
-	private static final double BIG_PARTICLE_MASS = 100;
+	private static final double BIG_PARTICLE_MASS = 0.1;
 	
 	//-0.1m/s < vx < 0.1m/s
 	//-0.1m/s < vy < 0.1m/s
@@ -88,7 +88,6 @@ public class ParticleGenerator {
 	 */
 	private static boolean NoOverlapParticle(Particle a, Particle b) {
 		// (xi - xj)^2 - (yi - yj)^2 > (ri - rj)^2
-		
 		return (Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2)) > Math.pow(a.getRadius() + b.getRadius(), 2);
 	}
 	

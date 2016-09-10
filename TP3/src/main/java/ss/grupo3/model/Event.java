@@ -6,14 +6,17 @@ public abstract class Event implements Comparable<Event> {
 	private double time;
 	private Particle a;
 	private Particle b;
+	private int countA;
+	private int countB;
 	
 	public Event(double time, Particle a, Particle b) {
-		a.setUpdated(false);
-		if(b != null)
-			b.setUpdated(false);
 		this.time = time;
 		this.a = a;
 		this.b = b;
+		this.countA = a.getCountCollision();
+		if(b != null)
+			this.countB = b.getCountCollision();
+		
 //		System.out.println("event time: " + this.time);
 	}
 
@@ -46,7 +49,15 @@ public abstract class Event implements Comparable<Event> {
 		return "Event[ time:" + getTime() + " A:"+ getA() + " B:"+ getB() + "]";
 	}
 	
-	public abstract void update();
+	public abstract void execute();
 
 	public abstract boolean contains(Particle a2, Particle b2);
+	
+    public boolean isValid() {
+        if (a != null && a.getCountCollision() != countA) 
+        	return false;
+        if (b != null && b.getCountCollision() != countB) 
+        	return false;
+        return true;
+    }
 }

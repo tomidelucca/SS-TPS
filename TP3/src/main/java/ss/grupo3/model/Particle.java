@@ -8,9 +8,7 @@ public class Particle implements Cloneable {
 	private double vy;
 	private double radius;
 	private double mass;	
-	private boolean updated;
-	
-	private int iteration = 0;
+	private int countCollision;
 	
 	public Particle(double x, double y, double vx, double vy, double radius, double mass) {
 		this.x = x;
@@ -19,7 +17,7 @@ public class Particle implements Cloneable {
 		this.vy = vy;
 		this.radius = radius;
 		this.mass = mass;
-		this.updated = false;
+		this.countCollision = 0;
 	}
 
 	public double getX() {
@@ -28,6 +26,7 @@ public class Particle implements Cloneable {
 
 	public void setX(double x) {
 		this.x = x;
+		System.out.println("valor X:" + x);
 	}
 
 	public double getY() {
@@ -36,6 +35,7 @@ public class Particle implements Cloneable {
 
 	public void setY(double y) {
 		this.y = y;
+		System.out.println("valor Y:" + y);
 	}
 
 	public double getVx() {
@@ -44,6 +44,8 @@ public class Particle implements Cloneable {
 
 	public void setVx(double vx) {
 		this.vx = vx;
+		if(Math.abs(vx) > 10)
+			System.out.println("muy grande");
 	}
 
 	public double getVy() {
@@ -52,6 +54,8 @@ public class Particle implements Cloneable {
 
 	public void setVy(double vy) {
 		this.vy = vy;
+		if(Math.abs(vy) > 10)
+			System.out.println("muy grande");
 	}
 
 	public double getRadius() {
@@ -73,18 +77,13 @@ public class Particle implements Cloneable {
 	public String print() {
 		return getRadius() + " " + getX() + " " + getY();
 	}
-	
-	public boolean isUpdated() {
-		return updated;
-	}
 
-	public void setUpdated(boolean updated) {
-		this.updated = updated;
+	public String printAuxPosition(double t) {
+		return getRadius() + " " + (this.x + this.vx*t) + " " + (this.y + this.vy*t);
 	}
 	
 	@Override
 	public String toString() {
-//		return "Particle[x:"+ getX() + " y:"+ getY() +" radius:"+ getRadius() +" mass:"+ getMass()+"]";
 		return "Particle[x:"+ getX() + " y:"+ getY()+"]";
 	}
 	
@@ -94,21 +93,18 @@ public class Particle implements Cloneable {
     }
 
 	public void updatePosition(double t) {
-//		System.out.println("ANTES posX: " + this.x + " posY: " + this.y);
 		this.x += this.vx*t;
 		this.y += this.vy*t;
-//		System.out.println("DESPUES posX: " + this.x + " posY: " + this.y);
-//		if(x < 0 || y < 0) {
-//			System.out.println("position error");
-//			System.out.println("tiempo:" + t);
-//		}
-//
-//		if(x > 0.5 || y > 0.5) {
-//			System.out.println("position error");
-//			System.out.println("tiempo:" + t);
-//		}		
 	}
 
+	public void addCountCollision() {
+		this.countCollision++;
+	}
+	
+	public int getCountCollision() {
+		return this.countCollision;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -144,12 +140,8 @@ public class Particle implements Cloneable {
 			return false;
 		return true;
 	}
-
-	public int getIteration() {
-		return iteration;
-	}
-
-	public void setIteration(int iteration) {
-		this.iteration = iteration;
+	
+	public double getSpeed() {
+		return Math.sqrt(Math.pow(getVx(),2) + Math.pow(getVy(),2));
 	}
 }

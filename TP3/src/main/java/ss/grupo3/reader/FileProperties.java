@@ -8,7 +8,8 @@ import java.util.Properties;
 public class FileProperties {
     private int N;
     private double L;
-    private int iteration;
+    private double dt;
+    private double totalSimulationTime;
     private String mode;
 
     public FileProperties(String path) {
@@ -20,11 +21,11 @@ public class FileProperties {
             inputFile = new FileInputStream(path);
             prop.load(inputFile);
 
-            this.iteration = Integer.valueOf(prop.getProperty("iteration"));
             this.N = Integer.valueOf(prop.getProperty("N"));
             this.L = Double.valueOf(prop.getProperty("L"));
             this.mode = prop.getProperty("mode");
-
+            this.dt = Double.valueOf(prop.getProperty("dt"));
+            this.totalSimulationTime = Double.valueOf(prop.getProperty("total_simulation_time"));
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -54,19 +55,27 @@ public class FileProperties {
 		L = l;
 	}
 
-	public int getIteration() {
-		return iteration;
-	}
-
-	public void setIteration(int iteration) {
-		this.iteration = iteration;
-	}
-
 	public String getMode() {
 		return mode;
 	}
 
 	public void setMode(String mode) {
 		this.mode = mode;
+	}
+
+	public double getDt() {
+		return dt;
+	}
+
+	public void setDt(double dt) {
+		this.dt = dt;
+	}
+
+	public double getTotalSimulationTime() {
+		return totalSimulationTime;
+	}
+
+	public void setTotalSimulationTime(double totalSimulationTime) {
+		this.totalSimulationTime = totalSimulationTime;
 	}
 }

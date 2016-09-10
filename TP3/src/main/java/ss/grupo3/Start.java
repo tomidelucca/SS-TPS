@@ -11,20 +11,22 @@ public class Start {
 	public static void main(String[] args) {
 		int N;
 		double L;
-		int iteration;
+		double dt;
+		double total_simulation_time;
 		String mode;
 		
 		FileProperties fp = new FileProperties("config.properties");
 		N = fp.getN();
 		L = fp.getL();
-		iteration = fp.getIteration();
+		dt = fp.getDt();
+		total_simulation_time = fp.getTotalSimulationTime();
 		mode = fp.getMode();
 		
 		Particle[] particles = ParticleGenerator.randomParticleGenerator(N, L);
 		FileGenerator.generate(N, L, particles, "input/input2.xyz");
 		
-		BrownianMotion bm = new BrownianMotion(particles, L);
-		bm.run(iteration);
+		BrownianMotion bm = new BrownianMotion(particles, L, dt, total_simulation_time);
+		bm.run();
 		
 	}
 }

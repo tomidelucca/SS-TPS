@@ -4,7 +4,7 @@ import ss.grupo3.utils.Collision;
 
 public class CollisionWall extends Event {
 	private Collision colission;
-
+	
 	public CollisionWall(double time, Particle a, Collision c) {
 		super(time, a, null);
 		this.colission = c;
@@ -12,26 +12,24 @@ public class CollisionWall extends Event {
 	}
 
 	@Override
-	public void update() {
+	public void execute() {
 		
 		//Si la particula no se actualizo,
 		//entonces ejecuto el evento.
-		if(!getA().isUpdated()) {
-			switch (colission) {
-			case VERTICAL:
-				getA().setVy(- getA().getVy());
-				break;
-			case HORIZONTAL:
-				getA().setVx(- getA().getVx());
-				break;
-			default:
-				//do nothing
-				break;
-			}			
-			
-			getA().setUpdated(true);
-		}
-
+		
+		switch (colission) {
+		case VERTICAL:			
+			getA().setVy(- getA().getVy());
+			break;
+		case HORIZONTAL:
+			getA().setVx(- getA().getVx());		
+			break;
+		default:
+			//do nothing
+			break;
+		}			
+		
+		getA().addCountCollision();
 	}
 
 	@Override

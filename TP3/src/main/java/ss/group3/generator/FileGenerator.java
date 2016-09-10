@@ -31,9 +31,12 @@ public class FileGenerator {
 		    writer.println("0.005 "+L+" 0");
 		    writer.println("0.005 0 " + L);
 		    writer.println("0.005 " + L + " " + L);
-		    for(Particle p: particles) {
-		        writer.println(p.print());
-		    }
+		    for(Particle p: particles)
+		    	writer.println(p.print());
+//		    writer.println(particles[0].print() + " R");
+//		    for(int i = 1; i < particles.length; i++) {
+//		        writer.println(particles[i].print() + " B");
+//		    }
 		    writer.close();		
 		} catch (FileNotFoundException e) {
 		    // TODO Auto-generated catch block

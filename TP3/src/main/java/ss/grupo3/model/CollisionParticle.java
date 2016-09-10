@@ -1,39 +1,35 @@
 package ss.grupo3.model;
 
 public class CollisionParticle extends Event {
-
-	private double dx;
-	private double dy;
-	private double dvdr;
-	private double sigma;
 	
-	public CollisionParticle(double time, Particle a, Particle b, double dx, double dy, double dvdr, double sigma) {
+	public CollisionParticle(double time, Particle a, Particle b) {
 		super(time, a, b);
-		this.dx = dx;
-		this.dy = dy;
-		this.dvdr = dvdr;
-		this.sigma = sigma;
 	}
 
 	@Override
-	public void update() {
+	public void execute() {
 		//si ninguno de los das particulas fue actualizada,
 		//entonces ejecuto el evento.
 				
-		if(!getA().isUpdated() && !getB().isUpdated()){
-			double j = (2*getA().getMass()*getB().getMass()*dvdr) / (sigma*(getA().getMass() + getB().getMass()));
-			double jx = (j*dx) / sigma;
-			double jy = (j*dy) / sigma;
-			
-			getA().setVx(getA().getVx() + jx/getA().getMass());
-			getA().setVy(getA().getVy() + jy/getA().getMass());
-			
-			getB().setVx(getB().getVx() - jx/getB().getMass());
-			getB().setVy(getB().getVy() - jy/getB().getMass());		
-			
-			getA().setUpdated(true);
-			getB().setUpdated(true);
-		}
+		double dx = getB().getX() - getA().getX();
+		double dy = getB().getY() - getA().getY();
+		double dvx = getB().getVx() - getA().getVx();
+		double dvy = getB().getVy() - getA().getVy();
+		double dvdr = dvx*dx + dvy*dy;				
+		double sigma = getA().getRadius() + getB().getRadius();
+				
+		double j = (2*getA().getMass()*getB().getMass()*dvdr) / (sigma*(getA().getMass() + getB().getMass()));
+		double jx = (j*dx) / sigma;
+		double jy = (j*dy) / sigma;
+		
+		getA().setVx(getA().getVx() + jx/getA().getMass());
+		getA().setVy(getA().getVy() + jy/getA().getMass());
+		
+		getB().setVx(getB().getVx() - jx/getB().getMass());
+		getB().setVy(getB().getVy() - jy/getB().getMass());		
+		
+		getA().addCountCollision();
+		getB().addCountCollision();
 	}
 
 	public Event newEvent() {
