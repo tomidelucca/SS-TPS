@@ -1,6 +1,6 @@
-package ss.grupo3.methods;
+package ss.grupo3.TP3.methods;
 
-import ss.grupo3.models.Particle;
+import ss.grupo3.TP3.models.Particle;
 
 import java.util.HashMap;
 import java.util.HashSet;

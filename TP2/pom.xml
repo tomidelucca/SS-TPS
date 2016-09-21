@@ -45,7 +45,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>ss.grupo3.Start</mainClass>
+              <mainClass>Start</mainClass>
             </manifest>
           </archive>
         </configuration>

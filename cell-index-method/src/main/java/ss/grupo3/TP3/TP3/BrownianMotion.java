@@ -1,4 +1,4 @@
-package ss.grupo3.TP3;
+package ss.grupo3.TP3.TP3;
 
 public class BrownianMotion {
 

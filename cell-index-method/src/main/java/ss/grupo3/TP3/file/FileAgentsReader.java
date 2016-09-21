@@ -1,6 +1,6 @@
-package ss.grupo3.file;
+package ss.grupo3.TP3.file;
 
-import ss.grupo3.models.Agent;
+import ss.grupo3.TP3.models.Agent;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

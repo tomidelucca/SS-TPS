@@ -1,6 +1,6 @@
-package ss.grupo3.TP3;
+package ss.grupo3.TP3.TP3;
 
-import ss.grupo3.models.Point;
+import ss.grupo3.TP3.models.Point;
 
 public class MovingParticle {
 

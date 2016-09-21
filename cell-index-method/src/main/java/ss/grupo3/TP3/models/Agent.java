@@ -1,4 +1,4 @@
-package ss.grupo3.models;
+package ss.grupo3.TP3.models;
 
 public class Agent extends Particle {
 

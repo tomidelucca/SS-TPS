@@ -1,4 +1,4 @@
-package ss.grupo3.file;
+package ss.grupo3.TP3.file;
 
 import java.io.FileInputStream;
 import java.io.IOException;

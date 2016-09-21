@@ -1,6 +1,6 @@
-package ss.grupo3.file;
+package ss.grupo3.TP3.file;
 
-import ss.grupo3.models.Particle;
+import ss.grupo3.TP3.models.Particle;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

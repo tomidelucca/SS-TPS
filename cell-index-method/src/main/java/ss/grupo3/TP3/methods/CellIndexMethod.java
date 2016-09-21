@@ -1,8 +1,8 @@
-package ss.grupo3.methods;
+package ss.grupo3.TP3.methods;
 
-import ss.grupo3.models.Particle;
-import ss.grupo3.models.PeriodicSquareMatrix;
-import ss.grupo3.models.SquareMatrix;
+import ss.grupo3.TP3.models.Particle;
+import ss.grupo3.TP3.models.PeriodicSquareMatrix;
+import ss.grupo3.TP3.models.SquareMatrix;
 
 import java.util.*;
 

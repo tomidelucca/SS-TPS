@@ -42,7 +42,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>Start</mainClass>
+              <mainClass>ss.grupo3.tp3.Start</mainClass>
             </manifest>
           </archive>
         </configuration>

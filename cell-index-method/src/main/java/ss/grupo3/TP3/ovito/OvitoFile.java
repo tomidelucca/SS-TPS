@@ -1,6 +1,6 @@
-package ss.grupo3.ovito;
+package ss.grupo3.TP3.ovito;
 
-import ss.grupo3.models.Agent;
+import ss.grupo3.TP3.models.Agent;
 
 import java.io.PrintWriter;
 

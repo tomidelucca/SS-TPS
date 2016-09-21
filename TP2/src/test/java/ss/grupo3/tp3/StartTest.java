@@ -1,4 +1,4 @@
-package ss.grupo3;
+package ss.grupo3.tp3;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

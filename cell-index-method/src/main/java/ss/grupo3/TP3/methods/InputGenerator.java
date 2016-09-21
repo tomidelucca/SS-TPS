@@ -1,4 +1,4 @@
-package ss.grupo3.methods;
+package ss.grupo3.TP3.methods;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

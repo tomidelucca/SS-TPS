@@ -1,4 +1,4 @@
-package ss.grupo3;
+package ss.grupo3.tp2;
 
 import static java.lang.Math.floor;
 
@@ -6,14 +6,14 @@ import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
-import ss.grupo3.file.FileAgentsReader;
-import ss.grupo3.file.FileGenerator;
-import ss.grupo3.file.FileProperties;
-import ss.grupo3.methods.InputGenerator;
-import ss.grupo3.methods.SelfDrivenParticles;
-import ss.grupo3.models.Agent;
-import ss.grupo3.models.Particle;
-import ss.grupo3.ovito.OvitoFile;
+import ss.grupo3.TP3.file.FileAgentsReader;
+import ss.grupo3.TP3.file.FileGenerator;
+import ss.grupo3.TP3.file.FileProperties;
+import ss.grupo3.TP3.methods.InputGenerator;
+import ss.grupo3.TP3.methods.SelfDrivenParticles;
+import ss.grupo3.TP3.models.Agent;
+import ss.grupo3.TP3.models.Particle;
+import ss.grupo3.TP3.ovito.OvitoFile;
 
 public class Start {
 
