@@ -13,6 +13,17 @@ import ss.grupo3.parameter.FileProperties;
 public class Start {
 	
 	public static void main(String[] args) {
+//		oscillationTest();
+//		ship2mars();
+
+	}
+	
+	public static void ship2mars() {
+		
+	}
+	
+	//Este metodo realiza lo pedido por el punto 1 del tp4
+	public static void oscillationTest() {
 		double[] dt = {0.1, 0.05, 0.02, 0.01, 0.005, 0.002, 0.001, 0.0005, 0.0002, 0.0001, 0.00005, 0.00001, 0.000005,0.000002, 0.000001, 0.0000005};
 		double[] withBeenman = new double[dt.length];
 		double[] withGearPC = new double[dt.length];
@@ -31,9 +42,9 @@ public class Start {
 			gpc = oscillationWithGearPC(delta_t);
 			lf = oscillationWithLeapFrog(delta_t);
 			
-			withBeenman[index] = errorCuadratico(analitico, beeman);
-			withGearPC[index] = errorCuadratico(analitico, gpc);
-			withLeapFrog[index] = errorCuadratico(analitico, lf);
+			withBeenman[index] = meanSquaredError(analitico, beeman);
+			withGearPC[index] = meanSquaredError(analitico, gpc);
+			withLeapFrog[index] = meanSquaredError(analitico, lf);
 			index++;
 		}
 		
@@ -42,11 +53,10 @@ public class Start {
 		System.out.println("with GearPC:");
 		for(double value: withGearPC) { System.out.println(value );}
 		System.out.println("with LeapFrog:");
-		for(double value: withLeapFrog) { System.out.println(value );}
-
+		for(double value: withLeapFrog) { System.out.println(value );}		
 	}
 	
-	public static double errorCuadratico(double[] array1, double[] array2) {
+	public static double meanSquaredError(double[] array1, double[] array2) {
 		double sum = 0;
 		
 		for(int i = 0; i < array1.length; i++) {
