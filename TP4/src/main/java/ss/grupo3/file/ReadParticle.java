@@ -30,11 +30,11 @@ public class ReadParticle {
 
             String[] input;            
             input = br.readLine().split(" ");
-            sun = new Particle(Double.valueOf(input[0]), Double.valueOf(input[1]), Double.valueOf(input[2]), Double.valueOf(input[3]), Double.valueOf(input[4]), Double.valueOf(input[5]));
+            sun = new Particle(Double.valueOf(input[0])*1000, Double.valueOf(input[1])*1000, Double.valueOf(input[2])*1000, Double.valueOf(input[3])*1000, Double.valueOf(input[4])*1000, Double.valueOf(input[5]));
             input = br.readLine().split(" ");
-            earth = new Particle(Double.valueOf(input[0]), Double.valueOf(input[1]), Double.valueOf(input[2]), Double.valueOf(input[3]), Double.valueOf(input[4]), Double.valueOf(input[5]));
+            earth = new Particle(Double.valueOf(input[0])*1000, Double.valueOf(input[1])*1000, Double.valueOf(input[2])*1000, Double.valueOf(input[3])*1000, Double.valueOf(input[4])*1000, Double.valueOf(input[5]));
             input = br.readLine().split(" ");
-            mars = new Particle(Double.valueOf(input[0]), Double.valueOf(input[1]), Double.valueOf(input[2]), Double.valueOf(input[3]), Double.valueOf(input[4]), Double.valueOf(input[5]));
+            mars = new Particle(Double.valueOf(input[0])*1000, Double.valueOf(input[1])*1000, Double.valueOf(input[2])*1000, Double.valueOf(input[3])*1000, Double.valueOf(input[4])*1000, Double.valueOf(input[5]));
 
 		} catch (IOException e) {
 			e.printStackTrace();

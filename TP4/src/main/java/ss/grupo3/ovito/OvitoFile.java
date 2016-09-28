@@ -7,10 +7,10 @@ import ss.grupo3.model.Particle;
 
 //N                            
 //frame
-//radius x y transparency r g b
-//radius x y transparency r g b
-//radius x y transparency r g b
-//radius x y transparency r g b
+//x y vx vy radius
+//x y vx vy radius
+//x y vx vy radius
+//x y vx vy radius
 
 public class OvitoFile {
 
@@ -36,46 +36,28 @@ public class OvitoFile {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	public void write(double L, Particle[] particles) {
+	public void write(Particle[] particles) {
+		double L = 2.0E8*1000;
+		
         this.writer.println(particles.length + 4);
         this.writer.println(iteration);
-	    writer.println("0.005 0 0 0 0 1 0 0 100");
-	    writer.println("0.005 "+L+" 0 0 0 1 0 0 100");
-	    writer.println("0.005 0 " + L + " 0 0 1 0 0 100");
-	    writer.println("0.005 " + L + " " + L + " 0 0 1 0 0 100");
+        this.writer.println(-L +" " + L + " 0 0 1 1");
+        this.writer.println(L +" " + L + " 0 0 1 1");
+        this.writer.println(-L +" " + -L + " 0 0 1 1");
+        this.writer.println(L +" " + -L + " 0 0 1 1");
+        for (int i = 0; i < particles.length; i++) {
+        	if(i == 3){
+        		this.writer.println(particles[i].getX() + " " + particles[i].getY() + " " + particles[i].getVx() + " " + particles[i].getVy() + " " + 10.0*1E8);        		
+        	} else
+        		this.writer.println(particles[i].print());        	
 
-	    writer.println(particles[0].print() + " 0 100 0 0");
-        for (int i = 1; i < particles.length; i++)
-            this.writer.println(particles[i].print() + " 0 0 0 100"); //escribo la nueva posicion de un agente en archivo
+        		
+
+        }
+
+
         iteration++;
     }
-
-//	public void write(double L, Particle[] particles, double t) {
-//        this.writer.println(particles.length + 4);
-//        this.writer.println(iteration);
-//        writer.println("0.005 0 0 0 0 1 0 0 100");
-//        writer.println("0.005 "+L+" 0 0 0 1 0 0 100");
-//        writer.println("0.005 0 " + L + " 0 0 1 0 0 100");
-//        writer.println("0.005 " + L + " " + L + " 0 0 1 0 0 100");
-//
-//	    writer.println(particles[0].print() + " 0 100 0 0");
-//        for (int i = 1; i < particles.length; i++)
-//            this.writer.println(particles[i].printAuxPosition(t) + " 0 0 0 100"); //escribo la nueva posicion de un agente en archivo
-//        																		  //no lo modifica realmente
-//        iteration++;
-//    }
-//
-//    public void writeTrajectory(double L, Particle[] particles) {
-//        this.writer.println(1 + 4);
-//        this.writer.println(iteration);
-//        writer.println("0.005 0 0 0 0 1 0 0 100");
-//        writer.println("0.005 "+L+" 0 0 0 1 0 0 100");
-//        writer.println("0.005 0 " + L + " 0 0 1 0 0 100");
-//        writer.println("0.005 " + L + " " + L + " 0 0 1 0 0 100");
-//
-//        writer.println(particles[0].print() + " 0 100 0 0");
-//        iteration++;
-//    }
 	
     public void closeFile() {
         this.writer.close();

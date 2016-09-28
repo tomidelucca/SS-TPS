@@ -13,8 +13,10 @@ public class BeemanAlgorithm implements Algorithm {
 	}
 
 	public double positionY(Particle p, double dt) {
-		// TODO Auto-generated method stub
-		return 0;
+		double next_y = p.getY() + p.getVy()*dt + (2.0/3.0)*p.getAy()*Math.pow(dt,2) - (1.0/6.0)*p.getPrev_ay()*Math.pow(dt,2);
+		p.setNext_y(next_y);
+		
+		return next_y;
 	}
 
 	public double velocityX(Particle p, double dt) {
@@ -25,8 +27,10 @@ public class BeemanAlgorithm implements Algorithm {
 	}
 
 	public double velocityY(Particle p, double dt) {
-		// TODO Auto-generated method stub
-		return 0;
+		double next_vy = p.getVy() + (1.0/3.0)*p.getNext_ay()*dt + (5.0/6.0)*p.getAy()*dt - (1.0/6.0)*p.getPrev_ay()*dt;
+		p.setNext_vy(next_vy);
+		
+		return next_vy;
 	}
 
 

@@ -1,17 +1,23 @@
 package ss.grupo3.algorithm;
 
 import ss.grupo3.model.Particle;
-import ss.grupo3.oscillation.Force;
-import ss.grupo3.oscillation.Oscillation;
 
-public class LeapFrogAlgorithm implements Algorithm {
+public class LeapFrogAlgorithmForPlanets implements Algorithm {
 	
-	public double velocityX(Particle p, double t, double dt) {
-		return p.getPrev_vx() + (dt/p.getMass())*Force.get4((Oscillation)p, t);
+	public double velocityX(Particle p, double sumForce, double t, double dt) {
+		return p.getPrev_vx() + (dt/p.getMass())*sumForce;
 	}
 
 	public double positionX(Particle p, double t, double dt) {
 		return p.getX() + dt*p.getNext_vx();
+	}
+
+	public double velocityY(Particle p, double sumForce, double t, double dt) {
+		return p.getPrev_vy() + (dt/p.getMass())*sumForce;
+	}
+
+	public double positionY(Particle p, double t, double dt) {
+		return p.getY() + dt*p.getNext_vy();
 	}
 	
 	@Override

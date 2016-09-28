@@ -36,7 +36,7 @@ public class GearPCAlgorithm implements Algorithm {
 //				+ Derivative.r5(osc, t) * (Math.pow(dt, 5) / 120);
 		
 		this.rp0 = osc.getX() + osc.getVx() * dt
-				+ Derivative.r2(osc, t) * (Math.pow(dt, 2) / 2)
+				+ osc.getAx() * (Math.pow(dt, 2) / 2)
 				+ Derivative.r3(osc, t) * (Math.pow(dt, 3) / 6)
 				+ Derivative.r4(osc, t) * (Math.pow(dt, 4) / 24)
 				+ Derivative.r5(osc, t) * (Math.pow(dt, 5) / 120);
@@ -59,7 +59,11 @@ public class GearPCAlgorithm implements Algorithm {
 	}
 
 	public double r2Predictor(Oscillation osc, double t, double dt) {
-		this.rp2 = Derivative.r2(osc, t) + Derivative.r3(osc, t) * dt
+//		this.rp2 = Derivative.r2(osc, t) + Derivative.r3(osc, t) * dt
+//				+ Derivative.r4(osc, t) * (Math.pow(dt, 2) / 2)
+//				+ Derivative.r5(osc, t) * (Math.pow(dt, 3) / 6);
+		
+		this.rp2 = osc.getAx() + Derivative.r3(osc, t) * dt
 				+ Derivative.r4(osc, t) * (Math.pow(dt, 2) / 2)
 				+ Derivative.r5(osc, t) * (Math.pow(dt, 3) / 6);
 		

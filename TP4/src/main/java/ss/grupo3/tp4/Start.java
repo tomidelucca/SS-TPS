@@ -8,18 +8,15 @@ import ss.grupo3.algorithm.VelocityVerlet;
 import ss.grupo3.derivative.Derivative;
 import ss.grupo3.oscillation.Oscillation;
 import ss.grupo3.parameter.FileProperties;
+import ss.grupo3.planets.Spaceship2Mars;
 
 
 public class Start {
 	
 	public static void main(String[] args) {
 //		oscillationTest();
-//		ship2mars();
+		Spaceship2Mars.run();
 
-	}
-	
-	public static void ship2mars() {
-		
 	}
 	
 	//Este metodo realiza lo pedido por el punto 1 del tp4
@@ -104,9 +101,6 @@ public class Start {
 		FileProperties fp = new FileProperties("config.properties");
 		Oscillation osc = fp.getOscillation();
 		tf = fp.tf();
-//		double[] rs = new double[(int) (tf/delta_t)+1];
-//		int i = 1;
-//		rs[0] = osc.getX();
 		double[] rs = new double[(int) (tf/delta_t)];
 		int i = 0;
 		
@@ -115,7 +109,6 @@ public class Start {
 		osc.setPrev_ax(Derivative.r2(osc, -dt));
 		osc.setAx(Derivative.r2(osc, 0.0));
 		
-//		System.out.println(osc);
 		while(tf > epsilon) {
 			osc.setNext_ax(Derivative.r2(osc, t + dt));
 			beeman.positionX(osc, dt);
@@ -140,10 +133,9 @@ public class Start {
 
 		FileProperties fp = new FileProperties("config.properties");
 		Oscillation osc = fp.getOscillation();
+		osc.setAx(Derivative.r2(osc, 0));
 		tf = fp.tf();
-//		double[] rs = new double[(int) (tf/delta_t)+1];
-//		int i = 1;
-//		rs[0] =osc.getX();
+
 		double[] rs = new double[(int) (tf/delta_t)];
 		int i = 0;
 		
@@ -172,16 +164,12 @@ public class Start {
 		Oscillation osc = fp.getOscillation();
 		osc.setPrev_vx(osc.getVx());
 		tf = fp.tf();
-//		double[] rs = new double[(int) (tf/delta_t)+1];
-//		int i = 1;
-//		rs[0] =osc.getX();
+		
 		double[] rs = new double[(int) (tf/delta_t)];
 		int i = 0;
 		
 		LeapFrogAlgorithm leapFrog = new LeapFrogAlgorithm();
-//		System.out.println(osc);
 
-//		t = dt;
 		while(tf > epsilon) {
 			osc.setNext_vx(leapFrog.velocityX(osc, t, dt));
 			osc.setNext_x(leapFrog.positionX(osc, t, dt));
