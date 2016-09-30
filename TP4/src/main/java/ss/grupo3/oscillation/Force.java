@@ -18,7 +18,7 @@ public class Force {
 		double a = -(p.getL()/(2.0*p.getMass()));
 		double b = Math.sqrt(p.getK()/p.getMass() - Math.pow(p.getL(),2)/(4.0*Math.pow(p.getMass(),2)));
 		
-		double r = Math.exp(a*t)*Math.cos(b*t);		
+		double r = Math.exp(a*t)*Math.cos(b*t);
 		return -p.getK()*r - p.getL()*p.getVx();
 	}
 	
@@ -40,5 +40,12 @@ public class Force {
 		}
 		
 		return sum;
+	}
+	
+	public static double ForceCentripeta(Particle p) {
+		double v = Math.sqrt(Math.pow(p.getVx(),2) + Math.pow(p.getVy(),2));
+		double r = Math.sqrt(Math.pow(p.getX(),2) + Math.pow(p.getY(),2));
+		
+		return p.getMass()*(Math.pow(v, 2)/r);
 	}
 }

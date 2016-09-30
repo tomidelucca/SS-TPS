@@ -8,16 +8,16 @@ public class LeapFrogAlgorithmForPlanets implements Algorithm {
 		return p.getPrev_vx() + (dt/p.getMass())*sumForce;
 	}
 
-	public double positionX(Particle p, double t, double dt) {
-		return p.getX() + dt*p.getNext_vx();
+	public double positionX(Particle p, double t, double dt, double osx) {
+		return p.getX() + dt*(p.getNext_vx() + osx);
 	}
 
 	public double velocityY(Particle p, double sumForce, double t, double dt) {
 		return p.getPrev_vy() + (dt/p.getMass())*sumForce;
 	}
 
-	public double positionY(Particle p, double t, double dt) {
-		return p.getY() + dt*p.getNext_vy();
+	public double positionY(Particle p, double t, double dt, double osy) {
+		return p.getY() + dt*(p.getNext_vy() + osy);
 	}
 	
 	@Override

@@ -82,7 +82,6 @@ public class Start {
 		
 		while(tf > epsilon) {
 			r = Math.exp(a*t)*Math.cos(b*t);
-//			System.out.println(r);
 			rs[i++] = r;
 			tf -= dt;
 			t += dt;
@@ -185,42 +184,5 @@ public class Start {
 		}
 		
 		return rs;
-	}
-	
-	//no se esta usando
-	public static void oscillationWithVelocityVerlet() {
-		double tf = 0.0;
-		double epsilon = 0.01;
-		double dt = 0.1;
-		double t = 0.0;
-		
-		FileProperties fp = new FileProperties("config.properties");
-		Oscillation osc = fp.getOscillation();
-		tf = fp.tf();
-		
-		VelocityVerlet velocityVerlet = new VelocityVerlet();
-
-		System.out.println(osc);
-
-//		osc.setPrev_vx(euler.velocityX(osc, t, (- dt)/2.0));
-//		osc.setNext_vx(osc.getVx()*2 - osc.getPrev_vx());
-//		osc.setNext_x(leapFrog.positionX(osc, t, dt));
-//		osc.setX(osc.getNext_x());
-//		osc.setPrev_vx(osc.getNext_vx());
-//		System.out.println(osc);
-
-		while(tf > epsilon) {
-
-			osc.setNext_x(velocityVerlet.positionX(osc,t, dt));
-			osc.setNext_vx(velocityVerlet.velocityX(osc,t, dt));
-			
-			osc.update();
-			
-			System.out.println(osc);			
-			tf -= dt;
-			t += dt;
-		}
-		
-		System.out.println("FINISHED!");
 	}
 }

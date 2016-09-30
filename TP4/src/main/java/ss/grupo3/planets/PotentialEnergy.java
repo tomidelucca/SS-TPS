@@ -9,4 +9,14 @@ public class PotentialEnergy {
 		
 		return - gravity*(p1.getMass()*p2.getMass())/rij;
 	}
+	
+	public static double system(Particle[] bodies, Particle spaceship, double gravity) {
+		double result = 0.0;
+		
+		for(int i = 0; i < bodies.length; i++) {
+			result += PotentialEnergy.get(spaceship, bodies[i], gravity);
+		}
+		
+		return result;
+	}
 }

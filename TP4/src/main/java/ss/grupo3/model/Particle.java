@@ -84,7 +84,7 @@ public class Particle{
 	}
 	
 	public String print() {
-		return getX() + " " + getY() + " " + getVx() + " " + getVy() + " " + 10.0*getRadius();
+		return getX() + " " + getY() + " " + getVx() + " " + getVy() + " " + 1E10;
 	}
 
 	public String printAuxPosition(double t) {

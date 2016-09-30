@@ -37,7 +37,7 @@ public class OvitoFile {
 		this.path = path;
 	}
 	public void write(Particle[] particles) {
-		double L = 2.0E8*1000;
+		double L = 3.0E8*1000;
 		
         this.writer.println(particles.length + 4);
         this.writer.println(iteration);
@@ -49,10 +49,7 @@ public class OvitoFile {
         	if(i == 3){
         		this.writer.println(particles[i].getX() + " " + particles[i].getY() + " " + particles[i].getVx() + " " + particles[i].getVy() + " " + 10.0*1E8);        		
         	} else
-        		this.writer.println(particles[i].print());        	
-
-        		
-
+        		this.writer.println(particles[i].print());
         }
 
 
