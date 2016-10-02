@@ -1,0 +1,7 @@
+X			Y			Z
+0			0			0
+VX			VY			VZ
+0			0			0
+
+mean radius: 695700 km
+mass: 1.988E30 kg 
