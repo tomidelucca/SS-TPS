@@ -41,14 +41,16 @@ public class OvitoFile {
 		
         this.writer.println(particles.length + 4);
         this.writer.println(iteration);
-        this.writer.println(-L +" " + L + " 0 0 1 1");
-        this.writer.println(L +" " + L + " 0 0 1 1");
-        this.writer.println(-L +" " + -L + " 0 0 1 1");
-        this.writer.println(L +" " + -L + " 0 0 1 1");
+        this.writer.println(-L +" " + L + " 0 0 1 1 0 0 0");
+        this.writer.println(L +" " + L + " 0 0 1 1 0 0 0");
+        this.writer.println(-L +" " + -L + " 0 0 1 1 0 0 0");
+        this.writer.println(L +" " + -L + " 0 0 1 1 0 0 0");
         for (int i = 0; i < particles.length; i++) {
         	if(i == 3){
-        		this.writer.println(particles[i].getX() + " " + particles[i].getY() + " " + particles[i].getVx() + " " + particles[i].getVy() + " " + 10.0*1E8);        		
-        	} else
+        		this.writer.println(particles[i].getX() + " " + particles[i].getY() + " " + particles[i].getPrev_vx() + " " + particles[i].getPrev_vy() + " " + 2.0*1E9 +
+                        " " + particles[i].getColor().getR() + " " + particles[i].getColor().getG() + " " + particles[i].getColor().getB());
+        	}
+            else
         		this.writer.println(particles[i].print());
         }
 

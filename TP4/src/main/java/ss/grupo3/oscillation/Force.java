@@ -26,7 +26,11 @@ public class Force {
 	public static double get4(Oscillation p, double t) {				
 		return -p.getK()*p.getX() - p.getL()*p.getVx();
 	}
-	
+
+	public static double get(Oscillation p, double t) {
+		return get4(p, t);
+	}
+
 	public static double[] sumForce(Particle p, Particle[] particles, double gravity) {
 		double[] sum = {0.0, 0.0};
 		double[] result;

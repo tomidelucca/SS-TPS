@@ -1,6 +1,6 @@
 package ss.grupo3.model;
 
-public class Particle{
+public class Particle {
 
 	private double prev_x;
 	private double prev_y;
@@ -22,17 +22,25 @@ public class Particle{
 	private double next_vy;
 	private double next_ax;
 	private double next_ay;
+
+	private Color color;
+	public String name;
 	
 	private double radius;
-	private double mass;	
-	
+	private double mass;
+
 	public Particle(double x, double y, double vx, double vy, double radius, double mass) {
+		this(x,y,vx,vy,radius, mass, null);
+	}
+
+	public Particle(double x, double y, double vx, double vy, double radius, double mass, Color color) {
 		this.x = x;
 		this.y = y; 
 		this.vx = vx;
 		this.vy = vy;
 		this.radius = radius;
 		this.mass = mass;
+		this.color = color;
 	}
 
 	public double getX() {
@@ -82,9 +90,13 @@ public class Particle{
 	public void setMass(double mass) {
 		this.mass = mass;
 	}
-	
+
+	public Color getColor() {
+		return color;
+	}
+
 	public String print() {
-		return getX() + " " + getY() + " " + getVx() + " " + getVy() + " " + 1E10;
+		return getX() + " " + getY() + " " + getVx() + " " + getVy() + " " + 1E10 + " " + getColor().getR() + " " + getColor().getG() + " " + getColor().getB();
 	}
 
 	public String printAuxPosition(double t) {
@@ -97,7 +109,14 @@ public class Particle{
 
 	@Override
 	public String toString() {
-		return "Particle[x:"+ getX() + " y:"+ getY()+"]";
+		return "Particle{" +
+				"x=" + x +
+				", y=" + y +
+				", vx=" + vx +
+				", vy=" + vy +
+				", mass=" + mass +
+				", radius=" + radius +
+				'}';
 	}
 
 	public void updatePosition(double t) {
