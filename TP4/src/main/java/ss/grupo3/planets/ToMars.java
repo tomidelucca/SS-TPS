@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class ToMars {
 
-    private static double V0 = 3 * 1000;
+    private static double V0 = 8 * 1000;
     private static double ORBITAL_SPEED = 7.12 * 1000;
-    private static double DISTANCIE_EARTH2SPACESHIP = 1.5 * 1000;//4E7 * 1000;
+    private static double DISTANCIE_EARTH2SPACESHIP = 1500 * 1000;//4E7 * 1000;
 
     private static double HOUR = 3600;
     private static double DAY = 24 * HOUR;
@@ -26,8 +26,8 @@ public class ToMars {
 
         OvitoFile ovito = new OvitoFile("output/output.xyz");
 
-        double tf = 5*YEAR;
-        double dt = 100;
+        double tf = 2*YEAR;
+        double dt = 10;
         double t = 0.0;
         int day = 0;
 
@@ -53,7 +53,7 @@ public class ToMars {
         bodies.put(Bodies.EARTH, earth);
         bodies.put(Bodies.MARS, mars);
 
-        while (day < 0) {
+        while (day < 1.6*365) {
 
             PlanetAlgorithm.updateVelocities(bodies.get(Bodies.EARTH), bodies.values(), dt);
             PlanetAlgorithm.updateVelocities(bodies.get(Bodies.MARS), bodies.values(), dt);
@@ -82,8 +82,11 @@ public class ToMars {
         System.out.println(ORBITAL_SPEED*Math.sin(Math.PI/2+angleToSun));
         System.out.println(bodies.get(Bodies.EARTH).getPrev_vx());
 
-        spaceship.setPrev_vx(V0*Math.sin(Math.PI/2+angleToMars) + ORBITAL_SPEED*Math.sin(Math.PI/2+angleToSun) + bodies.get(Bodies.EARTH).getPrev_vx());
-        spaceship.setPrev_vy(V0*Math.cos(Math.PI/2+angleToMars) + ORBITAL_SPEED*Math.cos(Math.PI/2+angleToSun) + bodies.get(Bodies.EARTH).getPrev_vy());
+        spaceship.setPrev_vx(V0*Math.cos(Math.PI/2+angleToMars) + ORBITAL_SPEED*Math.cos(Math.PI/2+angleToSun) + bodies.get(Bodies.EARTH).getPrev_vx());
+        spaceship.setPrev_vy(V0*Math.sin(Math.PI/2+angleToMars) + ORBITAL_SPEED*Math.sin(Math.PI/2+angleToSun) + bodies.get(Bodies.EARTH).getPrev_vy());
+        
+//        spaceship.setPrev_vx((V0 + ORBITAL_SPEED)*Math.cos(Math.PI/2 - angleToSun) + bodies.get(Bodies.EARTH).getPrev_vx());
+//        spaceship.setPrev_vy((V0 + ORBITAL_SPEED)*Math.sin(Math.PI/2 - angleToSun) + bodies.get(Bodies.EARTH).getPrev_vy());
 
         //spaceship.setPrev_vx(bodies.get(Bodies.EARTH).getPrev_vx());
         //spaceship.setPrev_vy(bodies.get(Bodies.EARTH).getPrev_vy());
