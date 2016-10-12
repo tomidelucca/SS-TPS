@@ -11,6 +11,8 @@ public class ParticleGenerator {
 
 	public static List<Particle> generate(double L, double W, double D) {
 		List<Particle> listParticle = new ArrayList<Particle>();
+		double maxRadius = (D/5)/2;
+		double minRadius = (D/7)/2;
 		double tries = 1E6;
 		double counterTries = tries;
 		int id = 0;
@@ -22,8 +24,7 @@ public class ParticleGenerator {
 		while(counterTries > 0) {
 			position = new Vector(Math.random()*W, Math.random()*L + 1);
 			velocity = new Velocity(0, 0);
-			radius = Math.random()*(D/7 - D/5) + D/7;
-			
+			radius = Math.random()*(minRadius - maxRadius) + minRadius;
 			particle = new Particle(id, position, velocity, radius);
 			
 			if(!outOfBound(particle, L, W) && validParticle(particle, listParticle)) {

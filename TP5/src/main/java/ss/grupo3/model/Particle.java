@@ -17,6 +17,16 @@ public class Particle {
 		this.mass = 0.01;
 	}
 
+    public Particle(Particle p, double moveFactorX, double moveFactorY) {
+        Vector vector = p.getPosition();
+        this.position = new Vector(vector.getX()+moveFactorX, vector.getY()+moveFactorY);
+        this.radius = p.getRadius();
+        this.id = p.getId();
+        this.velocity = p.getVelocity();
+        this.mass = p.getMass();
+    }
+	
+	
 	public int getId() {
 		return id;
 	}
