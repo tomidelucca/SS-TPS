@@ -30,12 +30,12 @@ public class OvitoFile {
 		this.path = path;
 	}
 
-	public void write(List<Particle> listParticle, Wall[] walls) {
-        this.writer.println(listParticle.size() + walls.length);
+	public void write(List<Particle> listParticle, List<Wall> walls) {
+        this.writer.println(listParticle.size() + walls.size());
         this.writer.println(frame++);
 
-        for(int i = 0; i < walls.length; i++) {
-        	this.writer.println(walls[i].print());
+        for(Wall w: walls) {
+        	this.writer.println(w.print());
         }
         
         for(Particle p: listParticle) {

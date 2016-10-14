@@ -9,7 +9,7 @@ import ss.grupo3.model.Velocity;
 
 public class ParticleGenerator {
 
-	public static List<Particle> generate(double L, double W, double D) {
+	public static List<Particle> generate(double L, double W, double D, double mass) {
 		List<Particle> listParticle = new ArrayList<Particle>();
 		double maxRadius = (D/5)/2;
 		double minRadius = (D/7)/2;
@@ -25,7 +25,7 @@ public class ParticleGenerator {
 			position = new Vector(Math.random()*W, Math.random()*L + 1);
 			velocity = new Velocity(0, 0);
 			radius = Math.random()*(minRadius - maxRadius) + minRadius;
-			particle = new Particle(id, position, velocity, radius);
+			particle = new Particle(id, position, velocity, radius, mass);
 			
 			if(!outOfBound(particle, L, W) && validParticle(particle, listParticle)) {
 				listParticle.add(particle);

@@ -11,7 +11,7 @@ import ss.grupo3.model.Particle;
 
 public class CellIndexMethod {
 
-    public static Map<Particle, Set<Particle>> neighbours(Particle[] particles, double L, int M, double Rc, boolean periodicBorder) {
+    public static Map<Particle, Set<Particle>> neighbours(List<Particle> particles, double L, int M, double Rc, boolean periodicBorder) {
 
         SquareMatrix matrix = CellIndexMethod.createAndPopulateMatrix(particles, M, L, periodicBorder);
 
@@ -19,8 +19,8 @@ public class CellIndexMethod {
 
         double cellSize = L/M;
 
-        for(int i = 0; i<particles.length; i++) {
-            Particle p = particles[i];
+        for(int i = 0; i<particles.size(); i++) {
+            Particle p = particles.get(i);
             int x = (int)(p.getPosition().getX()/cellSize);
             int y = (int)(p.getPosition().getY()/cellSize);
 
@@ -29,12 +29,22 @@ public class CellIndexMethod {
 
             // x y
             particlesAtPoint = matrix.getElement(x,y);
-            for(Particle otherParticle : particlesAtPoint) {
-                if(distance(p, otherParticle) <= Rc && !p.equals(otherParticle)) {
-                    result.get(p).add(otherParticle);
-                    result.get(otherParticle).add(p);
+            try{
+                for(Particle otherParticle : particlesAtPoint) {
+                    if(distance(p, otherParticle) <= Rc && !p.equals(otherParticle)) {
+                        result.get(p).add(otherParticle);
+                        result.get(otherParticle).add(p);
+                    }
                 }
+            }catch(Exception e) {
+            	System.out.println("catch0");
             }
+//            for(Particle otherParticle : particlesAtPoint) {
+//                if(distance(p, otherParticle) <= Rc && !p.equals(otherParticle)) {
+//                    result.get(p).add(otherParticle);
+//                    result.get(otherParticle).add(p);
+//                }
+//            }
 
             // x+1 y
             particlesAtPoint = matrix.getElement(x+1,y);
@@ -88,18 +98,18 @@ public class CellIndexMethod {
         return result;
     }
 
-	private static Map<Particle, Set<Particle>> createAndPopulateEmptyMap(Particle[] particles) {
+	private static Map<Particle, Set<Particle>> createAndPopulateEmptyMap(List<Particle> particles) {
 
         Map<Particle, Set<Particle>> map = new HashMap<>();
 
-        for(int i = 0; i<particles.length; i++) {
-            map.put(particles[i], new HashSet<>());
+        for(Particle p: particles) {
+            map.put(p, new HashSet<>());
         }
 
         return map;
     }
 
-    private static SquareMatrix createAndPopulateMatrix(Particle[] particles, int M, double L, boolean periodicBorder) {
+    private static SquareMatrix createAndPopulateMatrix(List<Particle> particles, int M, double L, boolean periodicBorder) {
 
         SquareMatrix matrix;
 
@@ -111,11 +121,15 @@ public class CellIndexMethod {
 
         double cellSize = L/M;
 
-        for(int i = 0; i<particles.length; i++) {
-            Particle p = particles[i];
+        for(Particle particle: particles) {
+            Particle p = particle;
             int x = (int)(p.getPosition().getX()/cellSize);
             int y = (int)(p.getPosition().getY()/cellSize);
-            matrix.getElement(x,y).add(p);
+            try {
+                matrix.getElement(x,y).add(p);
+            } catch (Exception e) {
+            	System.out.println("catch");
+            }
         }
 
         return matrix;
