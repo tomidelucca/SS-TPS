@@ -36,10 +36,10 @@ public class Wall {
 		this.position = position;
 	}
 	
-	public String print() {
-		String print = vec1.getX() + " " + vec1.getY() + " 0 0 0.1 1 0 1\n" +
-					   vec2.getX() + " " + vec2.getY() + " 0 0 0.1 1 0 1";
-		
-		return print;
+	public String print1() {
+		return vec1.getX() + " " + vec1.getY() + " 0.0 0.0 0.1 1 0 1";
+	}
+	public String print2() {
+		return vec2.getX() + " " + vec2.getY() + " 0.0 0.0 0.1 1 0 1";
 	}
 }

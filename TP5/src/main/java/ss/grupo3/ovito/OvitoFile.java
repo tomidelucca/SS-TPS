@@ -31,11 +31,12 @@ public class OvitoFile {
 	}
 
 	public void write(List<Particle> listParticle, List<Wall> walls) {
-        this.writer.println(listParticle.size() + walls.size());
+        this.writer.println(listParticle.size() + 2*walls.size());
         this.writer.println(frame++);
 
         for(Wall w: walls) {
-        	this.writer.println(w.print());
+        	this.writer.println(w.print1());
+        	this.writer.println(w.print2());
         }
         
         for(Particle p: listParticle) {

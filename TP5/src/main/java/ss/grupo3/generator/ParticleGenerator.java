@@ -20,25 +20,34 @@ public class ParticleGenerator {
 		Vector position;
 		Velocity velocity;
 		double radius;
-		
-		while(counterTries > 0) {
-			position = new Vector(Math.random()*W, Math.random()*L + 1);
-			velocity = new Velocity(0, 0);
-			radius = Math.random()*(minRadius - maxRadius) + minRadius;
-			particle = new Particle(id, position, velocity, radius, mass);
-			
-			if(!outOfBound(particle, L, W) && validParticle(particle, listParticle)) {
-				listParticle.add(particle);
-				counterTries = tries;
-			}
-			else
-				counterTries--;
-		}
-		
+
+//		while(counterTries > 0) {
+//			position = new Vector(Math.random()*W, Math.random()*L + 1);
+//			velocity = new Velocity(0, 0);
+//			radius = Math.random()*(minRadius - maxRadius) + minRadius;
+//			particle = new Particle(id, position, velocity, radius, mass);
+//			
+//			if(!outOfBound(particle, L, W) && validParticle(particle, listParticle)) {
+//				listParticle.add(particle);
+//				counterTries = tries;
+//			}
+//			else
+//				counterTries--;
+//		}
+
+		position = new Vector(1.7, 0.4 + 1);
+		velocity = new Velocity(0, 0);
+		radius = 0.1;
+		particle = new Particle(0, position, velocity, radius, mass);
+		listParticle.add(particle);
+		position = new Vector(1.6, 1 + 1);
+		velocity = new Velocity(0, 0);
+		radius = 0.1;
+		particle = new Particle(0, position, velocity, radius, mass);
+		listParticle.add(particle);
 		System.out.println("cantidad de particulas: " + listParticle.size());
 		return listParticle;
 	}
-	
 	
 	private static boolean outOfBound(Particle particle, double L, double W) {
 		if(particle.getPosition().getX() - particle.getRadius() > 0 && particle.getPosition().getX() + particle.getRadius() < W &&
