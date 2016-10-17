@@ -13,30 +13,24 @@ public class ForceWall {
 		double forceY = 0;
 		Vector tVector = null;
 		Vector nVector = null;
+		double normalForceValue;
+		double tangencialForceValue;
 		
 		for(Wall w: others) {
 			switch (w.getPosition()) {
 			case RIGHT:
-//				tVector = new Vector(0, 1);
-//				nVector = new Vector(-1, 0);
 				nVector = new Vector(1, 0);
 				tVector = new Vector(0, 1);
 				break;
 			case LEFT:
-//				tVector = new Vector(0, 1);
-//				nVector = new Vector(1, 0);
 				nVector = new Vector(-1, 0);
 				tVector = new Vector(0, -1);
 				break;
 			case UP:
-//				tVector = new Vector(1, 0);
-//				nVector = new Vector(0, -1);
 				nVector = new Vector(0, 1);
 				tVector = new Vector(-1, 0);
 				break;
 			case DOWN:
-//				tVector = new Vector(1, 0);
-//				nVector = new Vector(0, 1);
 				nVector = new Vector(0, -1);
 				tVector = new Vector(1, 0);
 				break;
@@ -45,9 +39,12 @@ public class ForceWall {
 				break;
 			}
 			
+			
 			if(isOverlap(p, w)){
-				forceX += normalForce(p, w, kn)*nVector.getX() + tangencialForce(p, w, kt, tVector) * tVector.getX();
-				forceY += normalForce(p, w, kn)*nVector.getY() + tangencialForce(p, w, kt, tVector) * tVector.getY();
+				normalForceValue = normalForce(p, w, kn);
+				tangencialForceValue = tangencialForce(p, w, kt, tVector);
+				forceX += normalForceValue*nVector.getX() + tangencialForceValue * tVector.getX();
+				forceY += normalForceValue*nVector.getY() + tangencialForceValue * tVector.getY();
 			} 
 		}
 		
@@ -67,18 +64,24 @@ public class ForceWall {
 		
 		switch (w.getPosition()) {
 		case RIGHT:
-			ol = p.getRadius() - Math.abs(p.getPosition().getX() - w.getVec1().getX());
+			if((w.getVec1().getY() < p.getPosition().getX() && p.getPosition().getX() < w.getVec2().getY()) &&
+					(p.getPosition().getX() - p.getRadius()) < w.getVec1().getX() && w.getVec2().getX() < (p.getPosition().getX() + p.getRadius()))
+				ol = p.getRadius() - Math.abs(Math.abs(p.getPosition().getX()) - Math.abs(w.getVec1().getX()));
 			break;
 		case LEFT:
-			ol = p.getRadius() - Math.abs(p.getPosition().getX() - w.getVec1().getX());
+			if((w.getVec1().getY() < p.getPosition().getX() && p.getPosition().getX() < w.getVec2().getY()) &&
+					(p.getPosition().getX() - p.getRadius()) < w.getVec1().getX() && w.getVec2().getX() < (p.getPosition().getX() + p.getRadius()))
+				ol = p.getRadius() - Math.abs(Math.abs(p.getPosition().getX()) - Math.abs(w.getVec1().getX()));
 			break;
 		case UP:
-			ol = p.getRadius() - Math.abs(p.getPosition().getY() - w.getVec1().getY());
+			if((w.getVec1().getX() < p.getPosition().getX() && p.getPosition().getX() < w.getVec2().getX()) &&
+					(p.getPosition().getY() - p.getRadius()) < w.getVec1().getY() && w.getVec2().getY() < (p.getPosition().getY() + p.getRadius()))
+				ol = p.getRadius() - Math.abs(Math.abs(p.getPosition().getY()) - Math.abs(w.getVec1().getY()));
 			break;
 		case DOWN:
 			if((w.getVec1().getX() < p.getPosition().getX() && p.getPosition().getX() < w.getVec2().getX()) &&
 					(p.getPosition().getY() - p.getRadius()) < w.getVec1().getY() && w.getVec2().getY() < (p.getPosition().getY() + p.getRadius()))
-				ol = p.getRadius() - Math.abs(p.getPosition().getY() - w.getVec1().getY());
+				ol = p.getRadius() - Math.abs(Math.abs(p.getPosition().getY()) - Math.abs(w.getVec1().getY()));
 			break;
 		default:
 			//do nothing

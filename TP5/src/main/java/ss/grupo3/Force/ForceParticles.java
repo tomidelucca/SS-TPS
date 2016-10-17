@@ -14,15 +14,18 @@ public class ForceParticles {
 		double enx;
 		double eny;
 		Vector tVector;
+		double normalForceValue;
+		double tangencialForceValue;
 		
 		for(Particle particle: others) {
 			enx = (particle.getPosition().getX() - p.getPosition().getX()) / distance(p, particle);
 			eny = (particle.getPosition().getY() - p.getPosition().getY()) / distance(p, particle);
 			
 			tVector = new Vector(- eny, enx);
-			
-			forceX += normalForce(p, particle, kn)*enx + tangencialForce(p, particle, kt, tVector) * (-eny);
-			forceY += normalForce(p, particle, kn)*eny + tangencialForce(p, particle, kt, tVector) * enx;
+			normalForceValue = normalForce(p, particle, kn);
+			tangencialForceValue = tangencialForce(p, particle, kt, tVector);
+			forceX += normalForceValue*enx + tangencialForceValue * (-eny);
+			forceY += normalForceValue*eny + tangencialForceValue * enx;
 		}
 		
 		return new double[]{forceX, forceY};
@@ -36,15 +39,17 @@ public class ForceParticles {
 		return - kt * overlap(p, other) * relativeVelocity(p, other, tVector);
 	}
 
-	//TODO corregir el overlap...
 	private static double overlap(Particle p, Particle other) {
-		double ol = p.getRadius() + other.getRadius() - other.getPosition().rest(p.getPosition()).mod(); 
+		double ol = p.getRadius() + other.getRadius() - distance(p, other); 
 		
-		return (ol < 0)? 0: ol;
+		if(ol < 0)
+			return 0;
+		return ol;
+
 	}
 
 	private static double relativeVelocity(Particle p, Particle other, Vector tangencialVector) {
-		Velocity v = p.getVelocity().rest(other.getVelocity());
+		Velocity v = other.getVelocity().rest(p.getVelocity());
 		return v.getVx() * tangencialVector.getX() + v.getVy() * tangencialVector.getY();
 	}
 	

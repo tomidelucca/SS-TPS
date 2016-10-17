@@ -39,12 +39,6 @@ public class CellIndexMethod {
             }catch(Exception e) {
             	System.out.println("catch0");
             }
-//            for(Particle otherParticle : particlesAtPoint) {
-//                if(distance(p, otherParticle) <= Rc && !p.equals(otherParticle)) {
-//                    result.get(p).add(otherParticle);
-//                    result.get(otherParticle).add(p);
-//                }
-//            }
 
             // x+1 y
             particlesAtPoint = matrix.getElement(x+1,y);
