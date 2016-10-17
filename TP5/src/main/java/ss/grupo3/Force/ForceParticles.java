@@ -24,8 +24,9 @@ public class ForceParticles {
 			tVector = new Vector(- eny, enx);
 			normalForceValue = normalForce(p, particle, kn);
 			tangencialForceValue = tangencialForce(p, particle, kt, tVector);
-			forceX += normalForceValue*enx + tangencialForceValue * (-eny);
-			forceY += normalForceValue*eny + tangencialForceValue * enx;
+			
+			forceX += normalForceValue * enx + tangencialForceValue * (-eny);
+			forceY += normalForceValue * eny + tangencialForceValue * enx;
 		}
 		
 		return new double[]{forceX, forceY};
@@ -45,7 +46,6 @@ public class ForceParticles {
 		if(ol < 0)
 			return 0;
 		return ol;
-
 	}
 
 	private static double relativeVelocity(Particle p, Particle other, Vector tangencialVector) {

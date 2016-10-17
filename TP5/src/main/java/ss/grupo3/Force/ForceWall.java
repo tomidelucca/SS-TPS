@@ -43,8 +43,9 @@ public class ForceWall {
 			if(isOverlap(p, w)){
 				normalForceValue = normalForce(p, w, kn);
 				tangencialForceValue = tangencialForce(p, w, kt, tVector);
-				forceX += normalForceValue*nVector.getX() + tangencialForceValue * tVector.getX();
-				forceY += normalForceValue*nVector.getY() + tangencialForceValue * tVector.getY();
+				
+				forceX += normalForceValue * nVector.getX() + tangencialForceValue * tVector.getX();
+				forceY += normalForceValue * nVector.getY() + tangencialForceValue * tVector.getY();
 			} 
 		}
 		
@@ -62,14 +63,15 @@ public class ForceWall {
 	private static double overlap(Particle p, Wall w) {
 		double ol = 0;
 		
+		//podria mejorarse, pero funciona...
 		switch (w.getPosition()) {
 		case RIGHT:
-			if((w.getVec1().getY() < p.getPosition().getX() && p.getPosition().getX() < w.getVec2().getY()) &&
+			if((w.getVec1().getY() < p.getPosition().getY() && p.getPosition().getY() < w.getVec2().getY()) &&
 					(p.getPosition().getX() - p.getRadius()) < w.getVec1().getX() && w.getVec2().getX() < (p.getPosition().getX() + p.getRadius()))
 				ol = p.getRadius() - Math.abs(Math.abs(p.getPosition().getX()) - Math.abs(w.getVec1().getX()));
 			break;
 		case LEFT:
-			if((w.getVec1().getY() < p.getPosition().getX() && p.getPosition().getX() < w.getVec2().getY()) &&
+			if((w.getVec1().getY() < p.getPosition().getY() && p.getPosition().getY() < w.getVec2().getY()) &&
 					(p.getPosition().getX() - p.getRadius()) < w.getVec1().getX() && w.getVec2().getX() < (p.getPosition().getX() + p.getRadius()))
 				ol = p.getRadius() - Math.abs(Math.abs(p.getPosition().getX()) - Math.abs(w.getVec1().getX()));
 			break;

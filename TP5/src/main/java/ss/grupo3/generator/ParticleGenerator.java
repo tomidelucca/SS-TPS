@@ -20,9 +20,10 @@ public class ParticleGenerator {
 		Vector position;
 		Velocity velocity;
 		double radius;
-		int particulas = 150;
-		while(counterTries > 0 && listParticle.size() < particulas) {
-//		while(counterTries > 0) {
+		
+		int particulas = 250; //cantidad fija de particulas
+		while(counterTries > 0 && listParticle.size() < particulas) { //cantidad fija de particulas
+//		while(counterTries > 0) { // maxima cantidad de particulas. descomentar y comentar las otras dos.
 			position = new Vector(Math.random()*W, Math.random()*L + 1);
 			velocity = new Velocity(0, 0);
 			radius = Math.random()*(minRadius - maxRadius) + minRadius;
@@ -57,7 +58,6 @@ public class ParticleGenerator {
 		
 		return true;
 	}
-
 
 	private static boolean isOverlap(Particle p, Particle other) {
 		if(overlap(p, other) > 0)

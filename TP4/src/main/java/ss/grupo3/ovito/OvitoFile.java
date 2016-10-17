@@ -7,10 +7,10 @@ import ss.grupo3.model.Particle;
 
 //N                            
 //frame
-//x y vx vy radius
-//x y vx vy radius
-//x y vx vy radius
-//x y vx vy radius
+//x y vx vy radius r g b
+//x y vx vy radius r g b
+//x y vx vy radius r g b
+//x y vx vy radius r g b
 
 public class OvitoFile {
 

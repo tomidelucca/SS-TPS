@@ -12,6 +12,7 @@ public class Particle {
 	private double radius;
 	private double mass;
 	private double[] forceOnMe;
+	private boolean fixed;
 	
 	public Particle(int id, Vector position, Velocity velocity, double radius, double mass) {
 		super();
@@ -20,7 +21,7 @@ public class Particle {
 		this.velocity = velocity;
 		this.radius = radius;
 		this.mass = mass;
-		
+		this.fixed = false;
 		this.prevPosition = position;
 		this.prevVelocity = velocity;
 		
@@ -33,13 +34,29 @@ public class Particle {
         this.id = p.getId();
         this.velocity = p.getVelocity();
         this.mass = p.getMass();
-        
+        this.fixed = isFixed();
         this.prevPosition = p.getPrevPosition();
         this.prevVelocity = p.getPrevVelocity();
         this.nextPosition = p.getNextPosition();
         this.nextVelocity = p.getNextVelocity();
     }
 	
+	
+	public Particle(int id, Vector position, Velocity velocity, double radius,
+			double mass, boolean b) {
+		this(id, position, velocity, radius, mass);
+		this.fixed = b;
+	}
+
+	public void reset(double y) {
+		getPosition().setY(y - getRadius());
+		setPrevPosition(new Vector(0, 0));
+		setNextPosition(new Vector(0, 0));
+		setVelocity(new Velocity(0, 0));
+		setPrevVelocity(new Velocity(0, 0));
+		setNextVelocity(new Velocity(0, 0));
+		setForce(new double[]{0,0});
+	}
 	
 	public int getId() {
 		return id;
@@ -49,6 +66,14 @@ public class Particle {
 		this.id = id;
 	}
 
+	public boolean isFixed() {
+		return fixed;
+	}
+	
+	public void setFixed(boolean fixed) {
+		this.fixed = fixed;
+	}
+	
 	public Vector getPosition() {
 		return position;
 	}
@@ -124,5 +149,4 @@ public class Particle {
 	public void setForce(double[] forceOnMe) {
 		this.forceOnMe = forceOnMe;
 	}
-	
 }
