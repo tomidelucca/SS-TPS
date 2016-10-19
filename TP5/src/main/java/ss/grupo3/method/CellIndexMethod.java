@@ -37,7 +37,7 @@ public class CellIndexMethod {
                     }
                 }
             }catch(Exception e) {
-            	System.out.println("catch0");
+            	e.printStackTrace();
             }
 
             // x+1 y
@@ -83,7 +83,12 @@ public class CellIndexMethod {
                     tmpParticle = new Particle(otherParticle, L * matrix.getScaleFactorX(x + 1), L * matrix.getScaleFactorY(y - 1));
                     if (distance(p, tmpParticle)  <= Rc) {
                         result.get(p).add(otherParticle);
-                        result.get(otherParticle).add(p);
+                        try {
+                            result.get(otherParticle).add(p);                        	
+                        }catch(Exception e) {
+                        	System.out.println("asdas");
+                        }
+
                     }
                 }
             }

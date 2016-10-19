@@ -21,12 +21,15 @@ public class ParticleGenerator {
 		Velocity velocity;
 		double radius;
 		
-		int particulas = 250; //cantidad fija de particulas
-		while(counterTries > 0 && listParticle.size() < particulas) { //cantidad fija de particulas
-//		while(counterTries > 0) { // maxima cantidad de particulas. descomentar y comentar las otras dos.
+//		int particulas = 300; //cantidad fija de particulas
+//		while(counterTries > 0 && listParticle.size() < particulas) { //cantidad fija de particulas
+			
+		while(counterTries > 0) { // maxima cantidad de particulas. descomentar y comentar las otras dos.
 			position = new Vector(Math.random()*W, Math.random()*L + 1);
 			velocity = new Velocity(0, 0);
 			radius = Math.random()*(minRadius - maxRadius) + minRadius;
+//			radius = maxRadius;
+//			radius = 0.1;
 			particle = new Particle(id, position, velocity, radius, mass);
 			
 			if(!outOfBound(particle, L, W) && validParticle(particle, listParticle)) {
@@ -37,6 +40,24 @@ public class ParticleGenerator {
 			else
 				counterTries--;
 		}
+		
+//		position = new Vector(0.4, L + 0.5);
+//		velocity = new Velocity(5, 0);
+//		radius = maxRadius;
+//		particle = new Particle(0, position, velocity, radius, mass);
+//		listParticle.add(particle);
+//
+//		position = new Vector(W - 0.4, L + 0.5);
+//		velocity = new Velocity(-5, 0);
+//		radius = maxRadius;
+//		particle = new Particle(1, position, velocity, radius, mass);
+//		listParticle.add(particle);
+//		
+//		position = new Vector(W - 1.5, L);
+//		velocity = new Velocity(-5, 0);
+//		radius = maxRadius;
+//		particle = new Particle(2, position, velocity, radius, mass);
+//		listParticle.add(particle);
 		
 		System.out.println("cantidad de particulas: " + listParticle.size());
 		return listParticle;

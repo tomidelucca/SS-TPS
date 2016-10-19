@@ -30,8 +30,8 @@ public class OvitoFile {
 		this.path = path;
 	}
 
-	public void write(List<Particle> listParticle, List<Wall> walls) {
-        this.writer.println(listParticle.size() + 2*walls.size());
+	public void write(List<Particle> listParticle, List<Wall> walls, int invisibleParticle) {
+        this.writer.println(listParticle.size() - invisibleParticle + 2*walls.size());
 //        System.out.println("frame:" + frame);
         this.writer.println(frame++);
 
@@ -41,7 +41,8 @@ public class OvitoFile {
         }
         
         for(Particle p: listParticle) {
-        	this.writer.println(p.print() + " 1 0 0");
+        	if(p.isVisible())
+        		this.writer.println(p.print() + " 1 0 0 0");
         }
     }
 

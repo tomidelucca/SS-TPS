@@ -18,14 +18,22 @@ public class LeapFrog {
 		return new Velocity(velocityX(p, force[0], dt), velocityY(p, force[1], dt));
 	}
 	
+//	private static double positionX(Particle p, double dt) {
+//		return p.getPosition().getX() + dt*p.getNextVelocity().getVx();
+//	}
+//
+//	private static double positionY(Particle p, double dt) {
+//		return p.getPosition().getY() + dt*p.getNextVelocity().getVy();
+//	}
+
 	private static double positionX(Particle p, double dt) {
-		return p.getPosition().getX() + dt*p.getNextVelocity().getVx();
+		return p.getPrevPosition().getX() + dt*p.getNextVelocity().getVx();
 	}
 
 	private static double positionY(Particle p, double dt) {
-		return p.getPosition().getY() + dt*p.getNextVelocity().getVy();
+		return p.getPrevPosition().getY() + dt*p.getNextVelocity().getVy();
 	}
-
+	
 	public static Vector position(Particle p, double dt) {
 		return new Vector(positionX(p, dt), positionY(p, dt));
 	}

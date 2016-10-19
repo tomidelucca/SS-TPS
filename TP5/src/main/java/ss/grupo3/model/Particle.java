@@ -11,17 +11,20 @@ public class Particle {
 	private Velocity nextVelocity;
 	private double radius;
 	private double mass;
-	private double[] forceOnMe;
 	private boolean fixed;
+	private boolean visible;
 	
 	public Particle(int id, Vector position, Velocity velocity, double radius, double mass) {
 		super();
 		this.id = id;
 		this.position = position;
+		this.nextPosition = position;
 		this.velocity = velocity;
+		this.nextVelocity = velocity;
 		this.radius = radius;
 		this.mass = mass;
 		this.fixed = false;
+		this.setVisible(true);
 		this.prevPosition = position;
 		this.prevVelocity = velocity;
 		
@@ -35,27 +38,27 @@ public class Particle {
         this.velocity = p.getVelocity();
         this.mass = p.getMass();
         this.fixed = isFixed();
+        this.visible = isVisible();
         this.prevPosition = p.getPrevPosition();
         this.prevVelocity = p.getPrevVelocity();
         this.nextPosition = p.getNextPosition();
         this.nextVelocity = p.getNextVelocity();
     }
 	
-	
+	public void reset(double l, double w) {
+		getPosition().setY(l + 1 - getRadius());
+		getPosition().setX(getRadius() + Math.random()*(w - 2 * getRadius()));
+		setPrevPosition(new Vector(0, 0));
+		setNextPosition(getPosition());
+		setVelocity(new Velocity(0, 0));
+		setPrevVelocity(new Velocity(0, 0));
+		setNextVelocity(new Velocity(0, 0));
+	}
+    
 	public Particle(int id, Vector position, Velocity velocity, double radius,
 			double mass, boolean b) {
 		this(id, position, velocity, radius, mass);
 		this.fixed = b;
-	}
-
-	public void reset(double y) {
-		getPosition().setY(y - getRadius());
-		setPrevPosition(new Vector(0, 0));
-		setNextPosition(new Vector(0, 0));
-		setVelocity(new Velocity(0, 0));
-		setPrevVelocity(new Velocity(0, 0));
-		setNextVelocity(new Velocity(0, 0));
-		setForce(new double[]{0,0});
 	}
 	
 	public int getId() {
@@ -141,12 +144,16 @@ public class Particle {
 	public void setNextVelocity(Velocity nextVelocity) {
 		this.nextVelocity = nextVelocity;
 	}
-
-	public double[] getForce() {
-		return forceOnMe;
+	
+	public double kineticEnergy() {
+		return 0.5 * mass * (Math.pow(getVelocity().getVx(), 2) + Math.pow(getVelocity().getVy(), 2));
 	}
 
-	public void setForce(double[] forceOnMe) {
-		this.forceOnMe = forceOnMe;
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 }

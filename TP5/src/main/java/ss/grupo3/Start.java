@@ -2,7 +2,6 @@ package ss.grupo3;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,7 +20,8 @@ import ss.grupo3.ovito.OvitoFile;
 
 public class Start {
 
-	private static final double MASS = 0.01;
+	// Datos
+	private static final double MASS = 1E-2;
 	private static final double KN = 1E5;
 	private static final double KT = 2*KN;
 	private static final double GRAVITY = 9.8;
@@ -31,17 +31,17 @@ public class Start {
 	private static double W = 2;
 	private static double D = 1;
 
+	//CellIndexMethod
 	private static int M = 5;
-	private static double Rc = 1;
+	private static double RC = 1;
 	private static boolean PERIODIC_BORDER = false;
 	
-	private static double TIME = 2;
-	private static double DT = 0.1 * Math.sqrt(MASS/KN);
-//	private static double DT = 6E-5;
-//	private static double DT = 1E-4;
+	//Tiempos
+	private static double SIMULATION_TIME = 5;
+//	private static double SIMULATION_DT = 3E-5;
+	private static double SIMULATION_DT = 5E-5;
+	private static double ANIMATION_DT = 1E-2;
 	
-	private static int FPS = 120;
-
 	public static void main(String[] args) {
 		long lStartTime = new Date().getTime();
 		long lEndTime;
@@ -49,157 +49,124 @@ public class Start {
 		
 		System.out.println("INICIO simulacion");
 		simulation();
-
 		lEndTime = new Date().getTime();
 		difference = lEndTime - lStartTime;
 		System.out.println("tiempo en segundos: " + difference/1000);
-
 		System.out.println("FIN simulacion");
 	}
 	
 	public static void simulation() {
-		int frames = 0;
+		double timeSimulation = SIMULATION_TIME;
+		double timeAnimation = ANIMATION_DT;
 		OvitoFile ovito = new OvitoFile("output/test.xyz");
+		//Genero particulas
 		List<Particle> particles = ParticleGenerator.generate(L, W, D, MASS);
-		List<Particle> waitToAppear = new ArrayList<Particle>();
+		//Particulas que estan arriba
+		List<Particle> topParticle = new ArrayList<Particle>();
+		//Particulas ocultas que se agregan si no hay overlap con ninguna de topParticle 
+		List<Particle> invisibleParticle = new ArrayList<Particle>();
+		//Particula y sus vecinas
 		Map<Particle, Set<Particle>> map;
-		double timeSimulation = TIME;
 
-//	UBICACION DE PAREDES
-//		|		    |
-//		|__.	.___|
-//		 __.|	|.__
-//		|		    |
-//		|		    |
 		List<Wall> walls = new ArrayList<Wall>();
 		walls.add(new Wall(new Vector(0, L + 1), new Vector(W, L + 1), Position.UP));
 		walls.add(new Wall(new Vector(0, 0), new Vector(0, L + 1), Position.LEFT));
 		walls.add(new Wall(new Vector(W, 0), new Vector(W, L + 1), Position.RIGHT));
-		
 		walls.add(new Wall(new Vector(0, 1), new Vector((W - D)/2, 1), Position.DOWN));
-		walls.add(new Wall(new Vector((W - D)/2, 1), new Vector((W - D)/2, 1 - 0.05), Position.LEFT));
-		walls.add(new Wall(new Vector(0, 1 - 0.05), new Vector((W - D)/2, 1 - 0.05), Position.UP));
-	
 		walls.add(new Wall(new Vector(W - (W - D)/2, 1), new Vector(W, 1), Position.DOWN));
-		walls.add(new Wall(new Vector(W - (W - D)/2, 1), new Vector(W - (W - D)/2, 1 - 0.05), Position.RIGHT));
-		walls.add(new Wall(new Vector(W - (W - D)/2, 1 - 0.05), new Vector(W, 1 - 0.05), Position.UP));
 	
 		//Particulas fijas en los extremos de la ranura. Necesarias para evitar que rompa el proceso.
-		particles.add(new Particle(particles.size() + 1, new Vector((W - D)/2, 1), new Velocity(0, 0), 0, MASS, true));
-		particles.add(new Particle(particles.size() + 1, new Vector((W - D)/2, 1), new Velocity(0, 0), 0, MASS, true));
-		particles.add(new Particle(particles.size() + 1, new Vector(W - (W - D)/2, 1 - 0.05), new Velocity(0, 0), 0, MASS, true));
-		particles.add(new Particle(particles.size() + 1, new Vector(W - (W - D)/2, 1 - 0.05), new Velocity(0, 0), 0, MASS, true));
+		particles.add(new Particle(particles.size(), new Vector((W - D)/2, 1), new Velocity(0, 0), 0, MASS, true));
+		particles.add(new Particle(particles.size(), new Vector(W - (W - D)/2, 1), new Velocity(0, 0), 0, MASS, true));
 		
 		Particle p;
 		Set<Particle> setp;
 		double[] force;
 		double[] sumForce = {0, 0};
-		double[] f;		
-		ovito.write(particles, walls);
-
+		ovito.write(particles, walls, 0);
+		
 		while(timeSimulation > 0) {
-			addParticles(particles, waitToAppear);
-			map = CellIndexMethod.neighbours(particles, L + 1, M, Rc, PERIODIC_BORDER);
+			
+			//Chequeo si una particula ahora es visible
+			for(Particle part: invisibleParticle)
+				if(validParticle(part, topParticle)){
+					part.setVisible(true);
+					topParticle.add(part);
+				}
+			
+			topParticle.clear();
+			invisibleParticle.clear();
+			
+			map = CellIndexMethod.neighbours(particles, L + 1, M, RC, PERIODIC_BORDER);
 			
 			for(Map.Entry<Particle,Set<Particle>> entry : map.entrySet()) {
 				p = entry.getKey();
 				setp = entry.getValue();
-				 if(!p.isFixed()) {
-						force = ForceParticles.total(p, setp, KN, KT);
-						sumForce[0] += force[0];
-						sumForce[1] += force[1];
-						
-						force = ForceWall.total(p, walls, KN, KT);
-						sumForce[0] += force[0];
-						sumForce[1] += force[1];
-						
-						f = new double[]{sumForce[0], sumForce[1] + p.getMass() * (- GRAVITY)};
-						p.setForce(f);
-				 }						
-						sumForce[0] = 0;
-						sumForce[1] = 0;					 
 
-			}
-			
-			//Leap Frog Algorithm
-			for(Map.Entry<Particle,Set<Particle>> entry : map.entrySet()) {
-				p = entry.getKey();
-			
-				if(!p.isFixed()) {
-					p.setNextVelocity(LeapFrog.velocity(p, p.getForce(), DT));
-					p.setNextPosition(LeapFrog.position(p, DT));
+				//Leap Frog Algorithm part-1
+				p.setPrevPosition(p.getPosition());
+				p.setPrevVelocity(p.getVelocity());
+				p.setPosition(p.getNextPosition());
+				p.setPrevVelocity(p.getNextVelocity());
+				p.setVelocity(p.getNextVelocity());
+								
+				if(!p.isFixed() && p.isVisible()) {
+					force = ForceParticles.total(p, setp, KN, KT);
+					sumForce[0] += force[0]; //x
+					sumForce[1] += force[1]; //y
 					
-					p.setPosition(p.getNextPosition());
-					p.setPrevVelocity(p.getNextVelocity());
-					p.setVelocity(p.getNextVelocity());
-					p.setForce(new double[]{0,0});					
-				}
+					force = ForceWall.total(p, walls, KN, KT);
+					sumForce[0] += force[0]; //x
+					sumForce[1] += force[1]; //y
+					
+					sumForce[1] += p.getMass() * (- GRAVITY); //y
+					
+					//Leap Frog Algorithm part-2
+					p.setNextVelocity(LeapFrog.velocity(p, sumForce, SIMULATION_DT));
+					p.setNextPosition(LeapFrog.position(p, SIMULATION_DT));
+					
+					//reseteo particula
+					if(p.getPosition().getY() < 0) {
+						p.reset(L, W);
+						p.setVisible(false);
+					}
+					
+					//particulas que estan arriba
+					if(p.getPosition().getY() > (L + 1 - D/3))
+						topParticle.add(p);
+
+				}											
+					//listo particulas que no se muestran
+					if(!p.isVisible())
+						invisibleParticle.add(p);
+					
+					sumForce[0] = 0;
+					sumForce[1] = 0;		
 			}
 			
-			removeParticles(particles, waitToAppear);
+			timeAnimation -= SIMULATION_DT;
+			timeSimulation -= SIMULATION_DT;
 			
-			frames++;
-			if(frames == FPS){
-				ovito.write(particles, walls);
-				frames = 0;
+			if(timeAnimation <= 0) {
+				System.out.println("SAVE: " + timeSimulation);
+				ovito.write(particles, walls, invisibleParticle.size());
+				timeAnimation = ANIMATION_DT;
 			}
-			
-			timeSimulation -= DT;
 		}
 		
 		ovito.closeFile();
 	}
 
-	/**
-	 * Remueve las particulas que puseen un ubicacion en el eje Y menor a cero
-	 * 
-	 * @param particles
-	 * @param waitToAppear
-	 */
-	private static void removeParticles(List<Particle> particles, List<Particle> waitToAppear) {
-		Iterator<Particle> ite = particles.iterator();
-		Particle par;
-		while(ite.hasNext()){
-			par = ite.next();
-			if(par.getPosition().getY() < 0) {
-				par.reset(L + 1);
-				waitToAppear.add(par);
-				ite.remove();
-			}
-		}
-	}
-
-	/**
-	 * Agrega las particulas que se quitaron de manera tal que de que no se superpongan
-	 * con las que ya se encuantran en la caja.
-	 * 
-	 * @param particles
-	 * @param waitToAppear
-	 */
-	private static void addParticles(List<Particle> particles, List<Particle> waitToAppear) {
-		Iterator<Particle> ite = waitToAppear.iterator();
-		Particle par;
-		boolean valid = true;
-		
-			while(ite.hasNext()){
-				par = ite.next();
-				valid = true;
-
-				for(int i = 0; i < particles.size() && valid; i++)
-//					if(particles.get(i).getPosition().getY() > L + 1 - D)
-						valid = validParticle(par, particles.get(i));
-			
-				if(valid) {
-					particles.add(par);
-					ite.remove();
-				}					
-			}
+	private static boolean validParticle(Particle p, List<Particle> setp) {
+		for(Particle sp: setp) {
+			if(!validParticle(p, sp))
+				return false;
+		}		
+		return true;
 	}
 	
 	private static boolean validParticle(Particle p, Particle other) {
-		if(overlap(other, p) < 0)
-			return true;
-		return false;
+		return overlap(other, p) < 0;
 	}
 	
 	private static double overlap(Particle p, Particle other) {
