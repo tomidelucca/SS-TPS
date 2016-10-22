@@ -14,9 +14,9 @@ public class SquareMatrix {
         this.size = size;
         matrix = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            matrix.add(new ArrayList<>(size));
+            matrix.add(new ArrayList<List<Particle>>(size));
             for (int j = 0; j < size; j++) {
-                matrix.get(i).add(j, new ArrayList<>());
+                matrix.get(i).add(j, new ArrayList<Particle>());
             }
         }
     }

@@ -102,7 +102,7 @@ public class CellIndexMethod {
         Map<Particle, Set<Particle>> map = new HashMap<>();
 
         for(Particle p: particles) {
-            map.put(p, new HashSet<>());
+            map.put(p, new HashSet<Particle>());
         }
 
         return map;
