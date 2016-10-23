@@ -36,7 +36,7 @@ public class CellIndexMethod {
                         result.get(otherParticle).add(p);
                     }
                 }
-            }catch(Exception e) {
+            } catch(Exception e) {
             	e.printStackTrace();
             }
 

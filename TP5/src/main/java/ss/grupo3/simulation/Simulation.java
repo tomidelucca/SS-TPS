@@ -32,6 +32,16 @@ public abstract class Simulation {
         }
     }
 
+    protected Boolean shouldStopSimulation() {
+        for(SimulationObserver obs: observers) {
+            if(obs.shouldStopSimulation(this)) {
+                return Boolean.TRUE;
+            }
+        }
+
+        return Boolean.FALSE;
+    }
+
     public abstract Boolean simulate();
     public abstract void reset();
     public abstract void initialize();

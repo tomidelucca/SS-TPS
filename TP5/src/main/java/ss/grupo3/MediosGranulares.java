@@ -3,18 +3,16 @@ package ss.grupo3;
 import ss.grupo3.Force.ForceParticles;
 import ss.grupo3.Force.ForceWall;
 import ss.grupo3.algorithm.LeapFrog;
-import ss.grupo3.generator.ParticleGenerator;
 import ss.grupo3.method.CellIndexMethod;
-import ss.grupo3.model.*;
-import ss.grupo3.ovito.OvitoFile;
+import ss.grupo3.model.Particle;
+import ss.grupo3.model.Wall;
 import ss.grupo3.simulation.Simulation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MediosGranulares extends Simulation {
+public abstract class MediosGranulares extends Simulation {
 
     // Datos
     private static final double MASS = 1E-2;
@@ -23,13 +21,13 @@ public class MediosGranulares extends Simulation {
     private static final double GRAVITY = 9.8;
 
     //L > W > D
-    private static double L = 3;
+    private static double L = 5;
     private static double W = 2;
     private static double D = 1;
 
     //CellIndexMethod
-    private static int M = 5;
-    private static double RC = 1;
+    private static int M = 29;
+    private static double RC = 0.2;
     private static boolean PERIODIC_BORDER = false;
 
     //Tiempos
@@ -49,27 +47,10 @@ public class MediosGranulares extends Simulation {
     @Override
     public Boolean simulate() {
 
-        OvitoFile ovito = new OvitoFile("output/test.xyz");
+        initialize();
 
-        //Genero particulas
-        particles = ParticleGenerator.generate(L, W, D, MASS);
-        //Particulas que estan arriba
-        topParticle = new ArrayList<Particle>();
-        //Particulas ocultas que se agregan si no hay overlap con ninguna de topParticle
-        invisibleParticle = new ArrayList<Particle>();
         //Particula y sus vecinas
         Map<Particle, Set<Particle>> map;
-
-        walls = new ArrayList<Wall>();
-        walls.add(new Wall(new Vector(0, L + 1), new Vector(W, L + 1), Position.UP));
-        walls.add(new Wall(new Vector(0, 0), new Vector(0, L + 1), Position.LEFT));
-        walls.add(new Wall(new Vector(W, 0), new Vector(W, L + 1), Position.RIGHT));
-        walls.add(new Wall(new Vector(0, 1), new Vector((W - D) / 2, 1), Position.DOWN));
-        walls.add(new Wall(new Vector(W - (W - D) / 2, 1), new Vector(W, 1), Position.DOWN));
-
-        //Particulas fijas en los extremos de la ranura. Necesarias para evitar que rompa el proceso.
-        particles.add(new Particle(particles.size(), new Vector((W - D) / 2, 1), new Velocity(0, 0), 0, MASS, true));
-        particles.add(new Particle(particles.size(), new Vector(W - (W - D) / 2, 1), new Velocity(0, 0), 0, MASS, true));
 
         Particle p;
         Set<Particle> setp;
@@ -78,7 +59,7 @@ public class MediosGranulares extends Simulation {
 
         startSimulation();
 
-        while (timeSimulation > 0) {
+        while (timeSimulation > 0 && !shouldStopSimulation()) {
 
             //Chequeo si una particula ahora es visible
             for (Particle part : invisibleParticle)
@@ -99,8 +80,10 @@ public class MediosGranulares extends Simulation {
                 //Leap Frog Algorithm part-1
                 p.setPrevPosition(p.getPosition());
                 p.setPrevVelocity(p.getVelocity());
+
                 p.setPosition(p.getNextPosition());
                 p.setPrevVelocity(p.getNextVelocity());
+
                 p.setVelocity(p.getNextVelocity());
 
                 if (!p.isFixed() && p.isVisible()) {
@@ -168,11 +151,6 @@ public class MediosGranulares extends Simulation {
 
     }
 
-    @Override
-    public void initialize() {
-
-    }
-
     public double getTimeAnimation() {
         return timeAnimation;
     }
@@ -225,4 +203,27 @@ public class MediosGranulares extends Simulation {
         return SIMULATION_DT;
     }
 
+    public static double getL() {
+        return L;
+    }
+
+    public static double getW() {
+        return W;
+    }
+
+    public static double getD() {
+        return D;
+    }
+
+    public static double getMASS() {
+        return MASS;
+    }
+
+    public static void setL(double l) {
+        L = l;
+    }
+
+    public static void setM(int m) {
+        M = m;
+    }
 }

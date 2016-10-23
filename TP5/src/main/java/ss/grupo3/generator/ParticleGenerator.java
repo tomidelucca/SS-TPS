@@ -59,7 +59,7 @@ public class ParticleGenerator {
 //		particle = new Particle(2, position, velocity, radius, mass);
 //		listParticle.add(particle);
 		
-		System.out.println("cantidad de particulas: " + listParticle.size());
+		System.out.println("[LOG] Number of particles: " + listParticle.size());
 		return listParticle;
 	}
 	

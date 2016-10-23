@@ -1,10 +1,8 @@
 package ss.grupo3.simulation;
 
-import ss.grupo3.MediosGranulares;
-
 import java.util.Date;
 
-public class GlobalTimeObserver implements SimulationObserver {
+public class GlobalTimeObserver extends Observer {
 
     long lStartTime = new Date().getTime();
     long lEndTime;
@@ -12,7 +10,7 @@ public class GlobalTimeObserver implements SimulationObserver {
 
     @Override
     public void simulationDidStart(Simulation simulation) {
-        System.out.println("INICIO simulacion");
+        System.out.println("[GlobalTimerObserver] Simulation started.");
     }
 
     @Override
@@ -24,8 +22,8 @@ public class GlobalTimeObserver implements SimulationObserver {
     public void simulationDidFinish(Simulation simulation) {
         lEndTime = new Date().getTime();
         difference = lEndTime - lStartTime;
-        System.out.println("tiempo en segundos: " + difference/1000);
-        System.out.println("FIN simulacion");
+        System.out.println("[GlobalTimerObserver] Simulation time: " + difference/1000);
+        System.out.println("[GlobalTimerObserver] Simulation finished.");
     }
 
 }

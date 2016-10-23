@@ -7,11 +7,13 @@ import ss.grupo3.model.Velocity;
 public class LeapFrog {
 	
 	private static double velocityX(Particle p, double sumForce, double dt) {
-		return p.getPrevVelocity().getVx() + (dt/p.getMass())*sumForce;
+		double velocity = p.getPrevVelocity().getVx() + (dt/p.getMass())*sumForce;
+		return (Math.abs(velocity) > 10)?p.getPrevVelocity().getVx():velocity;
 	}
 
 	private static double velocityY(Particle p, double sumForce, double dt) {
-		return p.getPrevVelocity().getVy() + (dt/p.getMass())*sumForce;
+		double velocity = p.getPrevVelocity().getVy() + (dt/p.getMass())*sumForce;
+		return (Math.abs(velocity) > 10)?p.getPrevVelocity().getVy():velocity;
 	}
 
 	public static Velocity velocity(Particle p, double[] force, double dt) {
