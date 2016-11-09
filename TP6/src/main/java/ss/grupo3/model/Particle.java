@@ -53,7 +53,7 @@ public class Particle {
     }
 	
 	public void reset(double l, double w) {
-		getPosition().setY(l - 1 - getRadius());
+		getPosition().setY(l - getRadius());
 		getPosition().setX(getRadius() + Math.random()*(w - 2 * getRadius()));
 		setPrevPosition(new Vector(0, 0));
 		setNextPosition(getPosition());

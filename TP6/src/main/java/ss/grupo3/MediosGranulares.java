@@ -106,7 +106,7 @@ public abstract class MediosGranulares extends Simulation {
 
                     //reseteo particula
                     if (p.getPosition().getY() < 0) {
-                        p.reset(L, W);
+                        p.reset(L + underTheBox, W);
                         p.setVisible(false);
                     }
 
