@@ -13,7 +13,7 @@ public class MediosGranulares1 extends MediosGranulares {
     @Override
     public void initialize() {
 
-        setM(19);
+//        setM( 19);
 
         double L = getL();
         double W = getW();
@@ -31,7 +31,7 @@ public class MediosGranulares1 extends MediosGranulares {
         setInvisibleParticle(new ArrayList<Particle>());
 
         List<Wall> walls = new ArrayList<Wall>();
-        walls.add(new Wall(new Vector(0, L + utb), new Vector(W, L + utb), Position.UP));
+//        walls.add(new Wall(new Vector(0, L + utb), new Vector(W, L + utb), Position.UP));
         walls.add(new Wall(new Vector(0, 0), new Vector(0, L + utb), Position.LEFT));
         walls.add(new Wall(new Vector(W, 0), new Vector(W, L + utb), Position.RIGHT));
         walls.add(new Wall(new Vector(0, utb), new Vector((W - D) / 2, utb), Position.DOWN));
@@ -39,7 +39,7 @@ public class MediosGranulares1 extends MediosGranulares {
         setWalls(walls);
 
         //El target para todas las particulas
-        setExitTarget(new Vector( W/2, utb));
+        setExitTarget(new Vector( W/2, utb - 0.2));
         
         //Particulas fijas en los extremos de la ranura. Necesarias para evitar que rompa el proceso.
         particles.add(new Particle(particles.size(), new Vector((W - D) / 2, utb), new Velocity(0, 0), 0, MASS, null, 0, 0, true));

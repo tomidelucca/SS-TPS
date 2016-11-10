@@ -32,10 +32,12 @@ public class ForceParticles {
 				relativeVelocityValue = relativeVelocity(p, particle, tVector);
 
 				//FUERZA SOCIA
-				socialForceValue = A * Math.exp(- overlapValue / B);
-				forceX += socialForceValue * enx;
-				forceY += socialForceValue * eny;
-				
+//				if( g == 0) {
+					socialForceValue = A * Math.exp(- overlapValue / B);
+					forceX += socialForceValue * enx;
+					forceY += socialForceValue * eny;					
+//				}
+
 				//FUERZA GRANULAR
 				forceX += (- overlapValue * kn * g) * enx + (relativeVelocityValue * overlapValue *kt * g) * (-eny);
 				forceY += (- overlapValue * kn * g) * eny + (relativeVelocityValue * overlapValue *kt * g) * enx;				
@@ -65,8 +67,8 @@ public class ForceParticles {
 	}
 	
 	private static double relativeVelocity(Particle p, Particle other, Vector tangencialVector) {
-		Velocity v = p.getPrevVelocity().rest(other.getPrevVelocity());
-//		Velocity v = other.getPrevVelocity().rest(p.getPrevVelocity());
+//		Velocity v = p.getPrevVelocity().rest(other.getPrevVelocity());
+		Velocity v = other.getPrevVelocity().rest(p.getPrevVelocity());
 
 		return v.getVx() * tangencialVector.getX() + v.getVy() * tangencialVector.getY();
 	}

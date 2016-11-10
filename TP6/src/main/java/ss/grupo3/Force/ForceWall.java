@@ -21,15 +21,18 @@ public class ForceWall {
 			if(overlapValue > 0) {				
 				relativeVelocityVelocity = relativeVelocity(p, w, w.getTVector());
 				
-				forceX += (- overlapValue * kn) * w.getNVector().getX() + (relativeVelocityVelocity * overlapValue * kt) * w.getTVector().getX();
-				forceY += (- overlapValue * kn) * w.getNVector().getY() + (relativeVelocityVelocity * overlapValue * kt) * w.getTVector().getY();
+				forceX += (- overlapValue * kn) * w.getNVector().getX() + (- relativeVelocityVelocity * overlapValue * kt) * w.getTVector().getX();
+				forceY += (- overlapValue * kn) * w.getNVector().getY() + (- relativeVelocityVelocity * overlapValue * kt) * w.getTVector().getY();
 				
-				//FUERZA SOCIAL
-				socialForceValue = A * Math.exp(- overlapValue / B);
-				forceX += (socialForceValue) * w.getNVector().getX();
-				forceY += (socialForceValue) * w.getNVector().getY();
+//				//FUERZA SOCIAL
+//				socialForceValue = A * Math.exp(overlapValue / B);
+//				forceX += (socialForceValue) * w.getNVector().getX();
+//				forceY += (socialForceValue) * w.getNVector().getY();
 			} 
-			
+//			//FUERZA SOCIAL
+			socialForceValue = A * Math.exp(- overlapValue / B);
+			forceX += (socialForceValue) * w.getNVector().getX();
+			forceY += (socialForceValue) * w.getNVector().getY();
 		}
 		
 		return new double[]{forceX, forceY};

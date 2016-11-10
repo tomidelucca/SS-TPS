@@ -15,7 +15,7 @@ import java.util.Set;
 
 public abstract class MediosGranulares extends Simulation {
 
-	private static final int PARTICLES = 30;
+	private static final int PARTICLES = 15;
 	
     // Datos
     private static final double MASS = 1E-2;
@@ -33,7 +33,7 @@ public abstract class MediosGranulares extends Simulation {
     private static boolean PERIODIC_BORDER = false;
 
     //Tiempos
-    private static double SIMULATION_TIME = 15;
+    private static double SIMULATION_TIME = 10;
     private static double SIMULATION_DT = 1E-5;
     private static double ANIMATION_DT = 1E-1;
 
@@ -47,7 +47,7 @@ public abstract class MediosGranulares extends Simulation {
 
     private static double A = 2000; //N
     private static double B = 0.08; //m
-    private static double T = 0.5; //Sseconds
+    private static double T = 0.5; //Seconds
     private Vector exitTarget = null;
    
     @Override
@@ -68,11 +68,11 @@ public abstract class MediosGranulares extends Simulation {
         while (timeSimulation > 0 && !shouldStopSimulation()) {
 
             //Chequeo si una particula ahora es visible
-            for (Particle part : invisibleParticle)
-                if (validParticle(part, topParticle)) {
-                    part.setVisible(true);
-                    topParticle.add(part);
-                }
+//            for (Particle part : invisibleParticle)
+//                if (validParticle(part, topParticle)) {
+//                    part.setVisible(true);
+//                    topParticle.add(part);
+//                }
 
             topParticle.clear();
             invisibleParticle.clear();
@@ -107,13 +107,13 @@ public abstract class MediosGranulares extends Simulation {
 
                     //reseteo particula
                     if (p.getPosition().getY() < 0) {
-                        p.reset(L + underTheBox, W);
+//                        p.reset(L + underTheBox, W);
                         p.setVisible(false);
                     }
 
                     //particulas que estan arriba
-                    if (p.getPosition().getY() > (L + underTheBox - D / 2))
-                        topParticle.add(p);
+//                    if (p.getPosition().getY() > (L + underTheBox - D / 2))
+//                        topParticle.add(p);
 
                 }
                 //listo particulas que no se muestran
