@@ -15,7 +15,7 @@ import java.util.Set;
 
 public abstract class MediosGranulares extends Simulation {
 
-	private static final int PARTICLES = 10;
+	private static final int PARTICLES = 30;
 	
     // Datos
     private static final double MASS = 1E-2;
@@ -26,15 +26,16 @@ public abstract class MediosGranulares extends Simulation {
     private static double W = 20;
     private static double D = 1.2;
     private static double underTheBox = 5;
+    
     //CellIndexMethod
     private static int M = 29;
     private static double RC = 0.2;
     private static boolean PERIODIC_BORDER = false;
 
     //Tiempos
-    private static double SIMULATION_TIME = 40;
-    private static double SIMULATION_DT = 5E-5;
-    private static double ANIMATION_DT = 1E-2;
+    private static double SIMULATION_TIME = 15;
+    private static double SIMULATION_DT = 1E-5;
+    private static double ANIMATION_DT = 1E-1;
 
     private List<Particle> particles = null;
     private List<Wall> walls = null;
@@ -44,8 +45,8 @@ public abstract class MediosGranulares extends Simulation {
     private double timeSimulation = SIMULATION_TIME;
     private double timeAnimation = ANIMATION_DT;
 
-    private static double A = 2E4; //N
-    private static double B = 8E-2; //m
+    private static double A = 2000; //N
+    private static double B = 0.08; //m
     private static double T = 0.5; //Sseconds
     private Vector exitTarget = null;
    

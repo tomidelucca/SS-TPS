@@ -19,36 +19,36 @@ public class ForceParticles {
 		Vector drivingForceValue;
 		double overlapValue;
 		double relativeVelocityValue;
+		int g;
 		
 		for(Particle particle: others) {
 			if(particle.isVisible() && !particle.isFixed()) {
-				enx = (particle.getPrevPosition().getX() - p.getPrevPosition().getX()) / distance(p, particle);
-				eny = (particle.getPrevPosition().getY() - p.getPrevPosition().getY()) / distance(p, particle);
+				enx = (p.getPrevPosition().getX() - particle.getPrevPosition().getX()) / distance(p, particle);
+				eny = (p.getPrevPosition().getY() - particle.getPrevPosition().getY()) / distance(p, particle);
 				
 				tVector = new Vector(- eny, enx);
-				overlapValue = g(p, particle);
+				overlapValue = overlap(p, particle);
+				g = g(p, particle);
 				relativeVelocityValue = relativeVelocity(p, particle, tVector);
 
 				//FUERZA SOCIA
-				socialForceValue = A * Math.exp(overlap(p, particle) / B);
+				socialForceValue = A * Math.exp(- overlapValue / B);
 				forceX += socialForceValue * enx;
 				forceY += socialForceValue * eny;
 				
 				//FUERZA GRANULAR
-				forceX += (- overlapValue * overlapValue * kn) * enx + (relativeVelocityValue * overlapValue * overlapValue * kt) * (-eny);
-				forceY += (- overlapValue * overlapValue * kn) * eny + (relativeVelocityValue * overlapValue * overlapValue * kt) * enx;				
+				forceX += (- overlapValue * kn * g) * enx + (relativeVelocityValue * overlapValue *kt * g) * (-eny);
+				forceY += (- overlapValue * kn * g) * eny + (relativeVelocityValue * overlapValue *kt * g) * enx;				
 			}
 		}
 		
+		//FUERZA DE DESEO
 		Vector aux;
-		
 		if(p.getPosition().getY() < utb)
 			aux = p.getDesiredTarget().rest(p.getPosition());
 		else
 			aux = exitTarget.rest(p.getPosition());
 		aux = aux.mult(1/aux.mod());
-		
-		//FUERZA DE DESEO
 		drivingForceValue = p.getVelocity().getVector().rest(aux.mult(p.getDesiredVelocity()));
 		drivingForceValue = drivingForceValue.mult(p.getMass()/p.getT());
 		
@@ -56,17 +56,18 @@ public class ForceParticles {
 	}
 	
 	private static double overlap(Particle p, Particle other) {
-		return p.getRadius() + other.getRadius() - distance(p, other); 
+		return distance(p, other) - (p.getRadius() + other.getRadius()); 
 	}
-
-	private static double g(Particle p, Particle other) {
+	
+	private static int g(Particle p, Particle other) {
 		double ol = overlap(p, other); 
-		return (ol < 0)? 0 : ol;
+		return (ol < 0)? 1 : 0;
 	}
 	
 	private static double relativeVelocity(Particle p, Particle other, Vector tangencialVector) {
-//		Velocity v = other.getPrevVelocity().rest(p.getPrevVelocity());
 		Velocity v = p.getPrevVelocity().rest(other.getPrevVelocity());
+//		Velocity v = other.getPrevVelocity().rest(p.getPrevVelocity());
+
 		return v.getVx() * tangencialVector.getX() + v.getVy() * tangencialVector.getY();
 	}
 	

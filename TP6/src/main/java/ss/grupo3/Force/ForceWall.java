@@ -12,28 +12,20 @@ public class ForceWall {
 	public static double[] total(Particle p, List<Wall> others, double kn, double kt, double A, double B) {
 		double forceX = 0;
 		double forceY = 0;
-		double normalForceValue;
-		double tangencialForceValue;
 		double overlapValue;
-		double relativeVelocityValue;
 		double relativeVelocityVelocity;
 		double socialForceValue;
 
 		for(Wall w: others) {			
 			overlapValue = overlap(p, w);	
-			if(overlapValue > 0) {
-//				overlapValue = 0;
-				
+			if(overlapValue > 0) {				
 				relativeVelocityVelocity = relativeVelocity(p, w, w.getTVector());
-
-				//FUERZA SOCIAL
-//				socialForceValue = A * Math.exp(overlapValue / B);
 				
-				forceX += ((- overlapValue * overlapValue * kn) ) * w.getNVector().getX() + (- relativeVelocityVelocity * overlapValue * overlapValue * kt) * w.getTVector().getX();
-				forceY += ((- overlapValue * overlapValue * kn) ) * w.getNVector().getY() + (- relativeVelocityVelocity * overlapValue * overlapValue * kt) * w.getTVector().getY();
+				forceX += (- overlapValue * kn) * w.getNVector().getX() + (relativeVelocityVelocity * overlapValue * kt) * w.getTVector().getX();
+				forceY += (- overlapValue * kn) * w.getNVector().getY() + (relativeVelocityVelocity * overlapValue * kt) * w.getTVector().getY();
 				
 				//FUERZA SOCIAL
-				socialForceValue = A * Math.exp(overlap(p, w) / B);
+				socialForceValue = A * Math.exp(- overlapValue / B);
 				forceX += (socialForceValue) * w.getNVector().getX();
 				forceY += (socialForceValue) * w.getNVector().getY();
 			} 
@@ -78,6 +70,11 @@ public class ForceWall {
 	
 	private static double relativeVelocity(Particle p, Wall w, Vector tVector) {
 		return p.getPrevVelocity().getVx() * tVector.getX() + p.getPrevVelocity().getVy() * tVector.getY();
+	}
+	
+	private static int g(Particle p, Wall w) {
+		double ol = overlap(p, w); 
+		return (ol > 0)? 1 : 0;
 	}
 	
 	private static boolean isOverlap(Particle p, Wall w) {

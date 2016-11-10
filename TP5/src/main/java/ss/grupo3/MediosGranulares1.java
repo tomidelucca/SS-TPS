@@ -11,7 +11,7 @@ public class MediosGranulares1 extends MediosGranulares {
     @Override
     public void initialize() {
 
-        setL(3.0);
+//        setL(3.0);
         setM(19);
 
         double L = getL();
