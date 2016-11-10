@@ -10,9 +10,9 @@ import ss.grupo3.model.Velocity;
 public class ParticleGenerator {
 	private static double MAXRADIUS = 0.50/2;
 	private static double MINRADIUS = 0.58/2;
-	private static double MAXMASS = 50;
-	private static double MINMASS = 100;
-	private static double MAXDESIREDVELOCITY = - 10.0;
+	private static double MAXMASS = 100;
+	private static double MINMASS = 50;
+	private static double MAXDESIREDVELOCITY = - 6.0;
 	private static double MINDESIREDVELOCITY = - 0.8;
 	private static double TRIES = 1E6;
 	
@@ -29,10 +29,11 @@ public class ParticleGenerator {
 		double mass;
 		
 		while(counterTries > 0 && listParticle.size() < numberOfParticle) { //cantidad fija de particulas			
-			position = new Vector(Math.random()*W, Math.random()*L + utb);
+			position = new Vector(Math.random()*W, Math.random()*(L - 5) + utb + 5);
 			velocity = new Velocity(0, 0);
 			radius = Math.random()*(MAXRADIUS - MINRADIUS) + MINRADIUS;
-			mass = Math.random()*(MAXMASS - MINMASS) + MINMASS;
+//			mass = Math.random()*(MAXMASS - MINMASS) + MINMASS;
+			mass = MAXMASS;
 //			desiredVelocity = Math.random() * (MAXDESIREDVELOCITY - MINDESIREDVELOCITY) + MINDESIREDVELOCITY;
 			desiredVelocity = MAXDESIREDVELOCITY;
 			desiredTarget = new Vector( radius + Math.random() * (W - radius), 0);

@@ -31,7 +31,7 @@ public class MediosGranulares1 extends MediosGranulares {
         setInvisibleParticle(new ArrayList<Particle>());
 
         List<Wall> walls = new ArrayList<Wall>();
-//        walls.add(new Wall(new Vector(0, L + utb), new Vector(W, L + utb), Position.UP));
+        walls.add(new Wall(new Vector(0, L + utb), new Vector(W, L + utb), Position.UP));
         walls.add(new Wall(new Vector(0, 0), new Vector(0, L + utb), Position.LEFT));
         walls.add(new Wall(new Vector(W, 0), new Vector(W, L + utb), Position.RIGHT));
         walls.add(new Wall(new Vector(0, utb), new Vector((W - D) / 2, utb), Position.DOWN));

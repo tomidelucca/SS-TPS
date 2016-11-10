@@ -15,17 +15,18 @@ import java.util.Set;
 
 public abstract class MediosGranulares extends Simulation {
 
-	private static final int PARTICLES = 15;
+	private static final int PARTICLES = 20;
 	
     // Datos
     private static final double MASS = 1E-2;
-    private static final double KN = 1.2E5;
+    private static final double KN = 0.5E5;
     private static final double KT = 2 * KN;
 
     private static double L = 20;
     private static double W = 20;
-    private static double D = 1.2;
-    private static double underTheBox = 5;
+    private static double D = 0.8;
+//    private static double D = 1.2;
+    private static double underTheBox = 5; //metros debajo de la caja
     
     //CellIndexMethod
     private static int M = 29;
@@ -33,7 +34,7 @@ public abstract class MediosGranulares extends Simulation {
     private static boolean PERIODIC_BORDER = false;
 
     //Tiempos
-    private static double SIMULATION_TIME = 10;
+    private static double SIMULATION_TIME = 4;
     private static double SIMULATION_DT = 1E-5;
     private static double ANIMATION_DT = 1E-1;
 
@@ -68,7 +69,8 @@ public abstract class MediosGranulares extends Simulation {
         while (timeSimulation > 0 && !shouldStopSimulation()) {
 
             //Chequeo si una particula ahora es visible
-//            for (Particle part : invisibleParticle)
+            for (Particle part : invisibleParticle)
+            	particles.remove(part);
 //                if (validParticle(part, topParticle)) {
 //                    part.setVisible(true);
 //                    topParticle.add(part);
