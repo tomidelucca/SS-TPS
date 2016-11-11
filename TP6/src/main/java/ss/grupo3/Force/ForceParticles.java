@@ -20,9 +20,10 @@ public class ForceParticles {
 		double overlapValue;
 		double relativeVelocityValue;
 		int g;
-		
+
+		if(p.getPosition().getY() > utb)
 		for(Particle particle: others) {
-			if(particle.isVisible() && !particle.isFixed()) {
+			if(particle.isVisible() && !particle.isFixed() && particle.getPosition().getY() > utb) {
 				enx = (p.getPrevPosition().getX() - particle.getPrevPosition().getX()) / distance(p, particle);
 				eny = (p.getPrevPosition().getY() - particle.getPrevPosition().getY()) / distance(p, particle);
 				

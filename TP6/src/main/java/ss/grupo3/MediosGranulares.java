@@ -24,8 +24,8 @@ public abstract class MediosGranulares extends Simulation {
 
     private static double L = 20;
     private static double W = 20;
-    private static double D = 0.8;
-//    private static double D = 1.2;
+//    private static double D = 0.8;
+    private static double D = 1.2;
     private static double underTheBox = 5; //metros debajo de la caja
     
     //CellIndexMethod
@@ -34,7 +34,7 @@ public abstract class MediosGranulares extends Simulation {
     private static boolean PERIODIC_BORDER = false;
 
     //Tiempos
-    private static double SIMULATION_TIME = 4;
+    private static double SIMULATION_TIME = 10;
     private static double SIMULATION_DT = 1E-5;
     private static double ANIMATION_DT = 1E-1;
 

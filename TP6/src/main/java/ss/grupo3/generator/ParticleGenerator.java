@@ -8,9 +8,9 @@ import ss.grupo3.model.Vector;
 import ss.grupo3.model.Velocity;
 
 public class ParticleGenerator {
-	private static double MAXRADIUS = 0.50/2;
-	private static double MINRADIUS = 0.58/2;
-	private static double MAXMASS = 100;
+	private static double MAXRADIUS = 0.58/2;
+	private static double MINRADIUS = 0.50/2;
+	private static double MAXMASS = 80;
 	private static double MINMASS = 50;
 	private static double MAXDESIREDVELOCITY = - 6.0;
 	private static double MINDESIREDVELOCITY = - 0.8;
