@@ -1,6 +1,6 @@
 package ss.grupo3.simulation;
 
-import ss.grupo3.MediosGranulares;
+import ss.grupo3.ModeloPeatonal;
 import ss.grupo3.model.Particle;
 
 import java.io.File;
@@ -32,9 +32,9 @@ public class KineticEnergyObserver extends Observer {
 
     @Override
     public void notify(Simulation simulation) {
-        MediosGranulares s = (MediosGranulares)simulation;
+        ModeloPeatonal s = (ModeloPeatonal)simulation;
 
-        timeEnergy -= MediosGranulares.getSimulationDt();
+        timeEnergy -= ModeloPeatonal.getSimulationDt();
 
         if (timeEnergy <= 0) {
 

@@ -1,6 +1,6 @@
 package ss.grupo3.simulation;
 
-import ss.grupo3.MediosGranulares;
+import ss.grupo3.ModeloPeatonal;
 import ss.grupo3.model.Particle;
 
 import java.io.File;
@@ -10,7 +10,7 @@ import java.util.List;
 public class FlowObserver extends Observer {
 
     private PrintWriter writer = null;
-    private static double SAMPLE_DT = 1E-1;
+    private static double SAMPLE_DT = 5E-1;
     private double timeFlow = SAMPLE_DT;
     private String path = "output/flow/";
 
@@ -35,15 +35,15 @@ public class FlowObserver extends Observer {
     @Override
     public void notify(Simulation simulation) {
 
-        MediosGranulares s = (MediosGranulares)simulation;
+        ModeloPeatonal s = (ModeloPeatonal)simulation;
 
         List<Particle> particles = s.getParticles();
 
-        timeFlow -= MediosGranulares.getSimulationDt();
+        timeFlow -= ModeloPeatonal.getSimulationDt();
 
         if (timeFlow <= 0) {
 
-            writer.println(s.getTimeSimulation() + "," + ((double)numberOfParticles)/SAMPLE_DT);
+            writer.println(s.getTimeSimulation() + "," + numberOfParticles);
 
             numberOfParticles = 0;
 

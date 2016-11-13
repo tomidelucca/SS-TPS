@@ -25,9 +25,9 @@ public class ForceWall {
 				forceY += (- overlapValue * kn) * w.getNVector().getY() + (- relativeVelocityVelocity * overlapValue * kt) * w.getTVector().getY();
 
 //				//FUERZA SOCIAL
-				socialForceValue = A * Math.exp(- overlapValue / B);
+				/*socialForceValue = A * Math.exp(- overlapValue / B);
 				forceX += (socialForceValue) * w.getNVector().getX();
-				forceY += (socialForceValue) * w.getNVector().getY();
+				forceY += (socialForceValue) * w.getNVector().getY();*/
 			} 
 
 		}

@@ -49,9 +49,11 @@ public class ForceParticles {
 		Vector aux;
 		if(p.getPosition().getY() < utb)
 			aux = p.getDesiredTarget().rest(p.getPosition());
-		else
+		else //else if (p.getPosition().getX() > 9.4 && p.getPosition().getX() < 10.6)
 			aux = exitTarget.rest(p.getPosition());
-		aux = aux.mult(1/aux.mod());
+		/*else
+			aux = (new Vector(10.0, utb + 2)).rest(p.getPosition());
+		*/aux = aux.mult(1/aux.mod());
 		drivingForceValue = p.getVelocity().getVector().rest(aux.mult(p.getDesiredVelocity()));
 		drivingForceValue = drivingForceValue.mult(p.getMass()/p.getT());
 		

@@ -1,13 +1,13 @@
 package ss.grupo3.simulation;
 
-import ss.grupo3.MediosGranulares;
+import ss.grupo3.ModeloPeatonal;
 import ss.grupo3.ovito.OvitoFile;
 
 import java.io.File;
 
 public class OvitoWriterObserver extends Observer {
 
-    private static double ANIMATION_DT = 1E-2;
+    private static double ANIMATION_DT = 1E-1;
     private double timeAnimation = ANIMATION_DT;
     private OvitoFile ovitoFile = null;
     private String path = "output/animation/";
@@ -19,16 +19,16 @@ public class OvitoWriterObserver extends Observer {
 
     @Override
     public void simulationDidStart(Simulation simulation) {
-        MediosGranulares s = (MediosGranulares)simulation;
+        ModeloPeatonal s = (ModeloPeatonal)simulation;
         ovitoFile.write(s.getParticles(), s.getWalls(), 0);
         System.out.println("[OvitoWriterObserver] Started...");
     }
 
     @Override
     public void notify(Simulation simulation) {
-        MediosGranulares s = (MediosGranulares)simulation;
+        ModeloPeatonal s = (ModeloPeatonal)simulation;
 
-        timeAnimation -= MediosGranulares.getSimulationDt();
+        timeAnimation -= ModeloPeatonal.getSimulationDt();
 
         if (timeAnimation <= 0) {
             System.out.println("[OvitoWriterObserver] Animation saved at: " + s.getTimeSimulation());
