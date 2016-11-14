@@ -71,9 +71,9 @@ public class Wall {
 	}
 	
 	public String print1() {
-		return vec1.getX() + " " + vec1.getY() + " 0.0 0.0 0.05 1 0 1 0";
+		return vec1.getX() + " " + vec1.getY() + " 0.0 0.0 0.05 0 1 0 1 0";
 	}
 	public String print2() {
-		return vec2.getX() + " " + vec2.getY() + " 0.0 0.0 0.05 1 0 1 0";
+		return vec2.getX() + " " + vec2.getY() + " 0.0 0.0 0.05 0 1 0 1 0";
 	}
 }

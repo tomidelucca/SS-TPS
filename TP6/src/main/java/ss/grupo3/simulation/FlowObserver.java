@@ -51,7 +51,7 @@ public class FlowObserver extends Observer {
         }
 
         for(Particle p : particles) {
-            if(!p.isFixed() && p.isVisible() && (p.getPrevPosition().getY() > 1 && p.getPosition().getY() <= 1)) {
+            if(!p.isFixed() && p.isVisible() && (p.getPrevPosition().getY() > 5 && p.getPosition().getY() <= 5)) {
                 numberOfParticles++;
             }
         }

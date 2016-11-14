@@ -35,7 +35,6 @@ public class ModeloPeatonal extends Simulation {
     //Tiempos
     private static double SIMULATION_TIME = 1000;
     private static double SIMULATION_DT = 1E-4;
-    private static double ANIMATION_DT = 1E-1;
 
     private List<Particle> particles = null;
     private List<Wall> walls = null;
@@ -43,7 +42,6 @@ public class ModeloPeatonal extends Simulation {
     private List<Particle> topParticle = null;
 
     private double timeSimulation = SIMULATION_TIME;
-    private double timeAnimation = ANIMATION_DT;
 
     private static double A = 2000; // N
     private static double B = 0.08; // m
@@ -182,14 +180,6 @@ public class ModeloPeatonal extends Simulation {
     @Override
     public void reset() {
 
-    }
-
-    public double getTimeAnimation() {
-        return timeAnimation;
-    }
-
-    public void setTimeAnimation(double timeAnimation) {
-        this.timeAnimation = timeAnimation;
     }
 
     public double getTimeSimulation() {

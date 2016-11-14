@@ -12,7 +12,7 @@ public class ParticleGenerator {
 	private static double MINRADIUS = 0.50/2;
 	private static double MAXMASS = 80;
 	private static double MINMASS = 50;
-	private static double MAXDESIREDVELOCITY = - 3.0;
+	private static double MAXDESIREDVELOCITY = - 5.0;
 	private static double MINDESIREDVELOCITY = - 0.8;
 	private static double TRIES = 1E6;
 	

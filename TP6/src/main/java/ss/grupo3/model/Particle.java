@@ -117,7 +117,11 @@ public class Particle {
 	}
 
 	public String print() {
-		return position.getX() + " " + position.getY() + " " + velocity.getVx() + " " + velocity.getVy() + " " + radius;
+		return position.getX() + " " + position.getY() + " " + velocity.getVx() + " " + velocity.getVy() + " " + radius + " " + getSpeed();
+	}
+
+	private Double getSpeed() {
+		return Math.sqrt(velocity.getVx()*velocity.getVx() + velocity.getVy()*velocity.getVy());
 	}
 
 	public Vector getPrevPosition() {

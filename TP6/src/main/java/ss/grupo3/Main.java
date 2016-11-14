@@ -10,14 +10,14 @@ public class Main {
 
     public static void ejercicio1() {
 
-        String name = "3_7";
+        String name = "5_10";
 
         // Create simulation
         Simulation simulation = new ModeloPeatonal();
 
         // Create observers
         SimulationObserver ovitoObserver = new OvitoWriterObserver(name + ".xyz");
-        SimulationObserver flowObserver = new FlowObserver(name);
+        SimulationObserver flowObserver = new FlowObserver(name + ".csv");
         SimulationObserver stopper = new EmptyRoomStopper();
 
         // Register observers
